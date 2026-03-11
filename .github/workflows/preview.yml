@@ -36,13 +36,21 @@ jobs:
         run: npm i -g vercel@latest
 
       - name: Validate Vercel Configuration
+        shell: bash
         run: |
-          echo "VERCEL_TOKEN set: $([ -n \"$VERCEL_TOKEN\" ] && echo yes || echo no)"
-          echo "VERCEL_ORG_ID set: $([ -n \"$VERCEL_ORG_ID\" ] && echo yes || echo no)"
-          echo "VERCEL_PROJECT_ID set: $([ -n \"$VERCEL_PROJECT_ID\" ] && echo yes || echo no)"
+          missing=()
 
-          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
-            echo "Missing Vercel configuration. Add VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID as GitHub Actions Secrets or Variables."
+          [[ -z "${VERCEL_TOKEN//[[:space:]]/}" ]] && missing+=("VERCEL_TOKEN")
+          [[ -z "${VERCEL_ORG_ID//[[:space:]]/}" ]] && missing+=("VERCEL_ORG_ID")
+          [[ -z "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && missing+=("VERCEL_PROJECT_ID")
+
+          echo "VERCEL_TOKEN set: $([[ -n "${VERCEL_TOKEN//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_ORG_ID set: $([[ -n "${VERCEL_ORG_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_PROJECT_ID set: $([[ -n "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+
+          if (( ${#missing[@]} > 0 )); then
+            printf 'Missing Vercel configuration keys: %s\n' "${missing[*]}"
+            echo "Add these values as GitHub Actions Secrets or Variables."
             exit 1
           fi
 
