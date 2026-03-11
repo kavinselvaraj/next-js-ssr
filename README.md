@@ -18,9 +18,10 @@ This repository includes:
 	- builds preview artifacts
 	- deploys a Vercel preview environment
 
-### Required GitHub repository secrets
+### Required GitHub Actions configuration
 
-Add these in **GitHub → Repository → Settings → Secrets and variables → Actions**:
+Add these as either **Secrets** or **Variables** in:
+**GitHub → Repository → Settings → Secrets and variables → Actions**
 
 - `VERCEL_TOKEN`
 - `VERCEL_ORG_ID`
