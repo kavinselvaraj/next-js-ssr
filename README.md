@@ -2,6 +2,30 @@
 
 A production-grade Next.js SSR application with clean architecture, mock API, and best practices.
 
+## CI/CD Deployment (GitHub Actions + Vercel)
+
+This repository includes `.github/workflows/deploy.yml`.
+
+- On every push to `main`, it:
+	- installs dependencies
+	- builds the Next.js app
+	- deploys production to Vercel
+
+### Required GitHub repository secrets
+
+Add these in **GitHub → Repository → Settings → Secrets and variables → Actions**:
+
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+
+### How to get Vercel IDs
+
+After linking this project locally with Vercel CLI (`vercel link`), values are available in `.vercel/project.json`:
+
+- `orgId` → `VERCEL_ORG_ID`
+- `projectId` → `VERCEL_PROJECT_ID`
+
 ## Folder Structure
 
 - `app/` - Routing, layouts, SSR pages, and API handlers
