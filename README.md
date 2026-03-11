@@ -4,12 +4,19 @@ A production-grade Next.js SSR application with clean architecture, mock API, an
 
 ## CI/CD Deployment (GitHub Actions + Vercel)
 
-This repository includes `.github/workflows/deploy.yml`.
+This repository includes:
+
+- `.github/workflows/deploy.yml` for production deploys
+- `.github/workflows/preview.yml` for PR preview deploys
 
 - On every push to `main`, it:
 	- installs dependencies
 	- builds the Next.js app
 	- deploys production to Vercel
+
+- On every pull request targeting `main`, it:
+	- builds preview artifacts
+	- deploys a Vercel preview environment
 
 ### Required GitHub repository secrets
 
