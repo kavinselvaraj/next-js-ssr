@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import FlightList from '../../components/FlightList';
-import { fetchAllFlights } from '../../features/flights/flightService';
+import { fetchAllFlights, fetchStaticFlights } from '../../features/flights/flightService';
 import { getRequestOrigin } from '../../lib/requestOrigin';
 import { Flight } from '../../types/flight';
 
@@ -42,7 +42,13 @@ export default function FlightsPage({ flights }: FlightsPageProps) {
  */
 export const getServerSideProps: GetServerSideProps<FlightsPageProps> = async ({ req }) => {
     const origin = getRequestOrigin(req);
-    const flights = await fetchAllFlights(origin);
+    let flights: Flight[] = [];
+
+    try {
+        flights = await fetchAllFlights(origin);
+    } catch {
+        flights = await fetchStaticFlights();
+    }
 
     return {
         props: {
