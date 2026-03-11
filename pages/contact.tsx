@@ -92,34 +92,34 @@ export default function ContactPage() {
                 {error ? <p className="text-red-600">{error}</p> : null}
 
                 {contact ? (
-                    <dl className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+                    <dl className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                         <div className="rounded-xl border border-gray-200 p-4">
                             <dt className="text-sm text-gray-500">Email</dt>
-                            <dd className="mt-2 font-semibold">{contact.email}</dd>
+                            <dd className="mt-2 break-all text-2xl font-semibold leading-tight text-slate-900">{contact.email}</dd>
                         </div>
                         <div className="rounded-xl border border-gray-200 p-4">
                             <dt className="text-sm text-gray-500">Phone</dt>
-                            <dd className="mt-2 font-semibold">{contact.phone}</dd>
+                            <dd className="mt-2 text-2xl font-semibold text-slate-900">{contact.phone}</dd>
                         </div>
                         <div className="rounded-xl border border-gray-200 p-4">
                             <dt className="text-sm text-gray-500">Support hours</dt>
-                            <dd className="mt-2 font-semibold">{contact.supportHours}</dd>
+                            <dd className="mt-2 text-2xl font-semibold text-slate-900">{contact.supportHours}</dd>
                         </div>
                         <div className="rounded-xl border border-gray-200 p-4">
                             <dt className="text-sm text-gray-500">Operations hub</dt>
-                            <dd className="mt-2 font-semibold">{contact.operationsHub}</dd>
+                            <dd className="mt-2 text-2xl font-semibold text-slate-900">{contact.operationsHub}</dd>
                         </div>
                         <div className="rounded-xl border border-gray-200 p-4">
                             <dt className="text-sm text-gray-500">Concierge desk</dt>
-                            <dd className="mt-2 font-semibold">{contact.conciergeDesk}</dd>
+                            <dd className="mt-2 text-2xl font-semibold text-slate-900">{contact.conciergeDesk}</dd>
                         </div>
                         <div className="rounded-xl border border-gray-200 p-4">
                             <dt className="text-sm text-gray-500">Request ID</dt>
-                            <dd className="mt-2 font-semibold">{contact.requestId}</dd>
+                            <dd className="mt-2 break-all font-semibold text-slate-900">{contact.requestId}</dd>
                         </div>
                         <div className="rounded-xl border border-gray-200 p-4 sm:col-span-2 xl:col-span-2">
                             <dt className="text-sm text-gray-500">Fetched at</dt>
-                            <dd className="mt-2 font-semibold">{contact.fetchedAt}</dd>
+                            <dd className="mt-2 break-all font-semibold text-slate-900">{contact.fetchedAt}</dd>
                         </div>
                     </dl>
                 ) : null}
