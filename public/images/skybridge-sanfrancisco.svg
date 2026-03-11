@@ -1,0 +1,12 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#0F766E"/>
+  <rect y="500" width="1200" height="300" fill="#082F49"/>
+  <circle cx="986" cy="120" r="84" fill="#FDBA74"/>
+  <path d="M0 440C173 394 309 376 438 385C619 397 789 456 946 456C1036 456 1121 437 1200 404V500H0V440Z" fill="#14B8A6" opacity="0.7"/>
+  <path d="M222 550H262V286H222V550Z" fill="#E2E8F0"/>
+  <path d="M491 550H531V256H491V550Z" fill="#E2E8F0"/>
+  <path d="M203 300H549V329H203V300Z" fill="#F59E0B"/>
+  <path d="M151 364H600V391H151V364Z" fill="#FBBF24"/>
+  <path d="M70 646C238 590 435 562 650 579C875 597 1042 649 1200 715V800H0V699C21 683 43 664 70 646Z" fill="#020617"/>
+  <text x="76" y="108" fill="#ECFEFF" font-family="Arial, sans-serif" font-size="52" font-weight="700">SkyBridge Air • San Francisco</text>
+</svg>

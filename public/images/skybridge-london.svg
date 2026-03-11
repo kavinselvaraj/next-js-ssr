@@ -1,0 +1,15 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#082F49"/>
+  <rect y="470" width="1200" height="330" fill="#0F172A"/>
+  <circle cx="1010" cy="128" r="78" fill="#FDE68A"/>
+  <path d="M0 420C144 360 283 330 417 330C605 330 730 401 861 401C983 401 1096 361 1200 312V470H0V420Z" fill="#0369A1" opacity="0.75"/>
+  <path d="M208 537H258V308H208V537Z" fill="#CBD5E1"/>
+  <path d="M170 308H295L252 179H212L170 308Z" fill="#E2E8F0"/>
+  <rect x="585" y="290" width="44" height="247" fill="#94A3B8"/>
+  <rect x="545" y="327" width="124" height="29" fill="#CBD5E1"/>
+  <rect x="545" y="393" width="124" height="29" fill="#CBD5E1"/>
+  <rect x="545" y="459" width="124" height="29" fill="#CBD5E1"/>
+  <path d="M780 544C827 476 912 436 1003 436C1042 436 1078 444 1110 460V544H780Z" fill="#1E293B"/>
+  <path d="M212 620C413 560 610 540 806 560C939 573 1076 603 1200 652V800H0V680C71 660 141 638 212 620Z" fill="#020617"/>
+  <text x="76" y="108" fill="#E0F2FE" font-family="Arial, sans-serif" font-size="52" font-weight="700">SkyBridge Air • London</text>
+</svg>

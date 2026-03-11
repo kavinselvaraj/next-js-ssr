@@ -1,0 +1,11 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#172554"/>
+  <rect y="520" width="1200" height="280" fill="#0F172A"/>
+  <circle cx="940" cy="160" r="92" fill="#F9A8D4"/>
+  <path d="M0 448C170 382 326 350 469 350C640 350 802 399 910 399C1023 399 1119 359 1200 316V520H0V448Z" fill="#1D4ED8" opacity="0.72"/>
+  <path d="M282 536H353L393 236H242L282 536Z" fill="#C4B5FD"/>
+  <path d="M566 536H639V309H566V536Z" fill="#A5B4FC"/>
+  <path d="M802 536H873V210H802V536Z" fill="#93C5FD"/>
+  <path d="M98 645C261 599 459 574 641 592C858 613 1048 666 1200 731V800H0V690C36 676 67 660 98 645Z" fill="#020617"/>
+  <text x="76" y="108" fill="#E0E7FF" font-family="Arial, sans-serif" font-size="52" font-weight="700">SkyBridge Air • Tokyo</text>
+</svg>
