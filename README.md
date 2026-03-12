@@ -1,6 +1,6 @@
-# My SSR App
+# SkyBridge Air
 
-A production-grade Next.js SSR application with clean architecture, mock API, and best practices.
+A production-grade Next.js airline POC using mixed rendering strategies (SSR, ISR, CSR) with clean architecture.
 
 ## CI/CD Deployment (GitHub Actions + Vercel)
 
@@ -36,9 +36,9 @@ After linking this project locally with Vercel CLI (`vercel link`), values are a
 
 ## Folder Structure
 
-- `app/` - Routing, layouts, SSR pages, and API handlers
+- `pages/` - Primary routing (SSR/ISR/CSR) and API routes
 - `components/` - Pure UI, reusable, stateless
-- `features/` - Business/domain logic, orchestrates services
+- `features/flights/` - Airline business/domain logic
 - `services/` - API communication, easily swappable
 - `lib/` - Utilities, fetch wrappers, error handling
 - `types/` - Shared TypeScript types
@@ -61,13 +61,15 @@ pnpm start
 
 ## Testing
 
-- Place tests alongside modules, e.g., `features/products/productService.test.ts`.
+- Place tests alongside modules, e.g., `features/flights/flightService.test.ts`.
 - Use dependency injection for services to enable mocking.
 
 ## Architecture
 
 - Layered, clean architecture
-- SSR for all data-driven pages
+- SSR for flight discovery pages
+- ISR for flight detail pages
+- CSR for support/contact pages
 - Mock API with realistic latency and errors
 - Strong TypeScript typing
 - Centralized error handling
