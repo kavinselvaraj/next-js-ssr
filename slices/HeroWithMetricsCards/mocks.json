@@ -1,0 +1,78 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "nearer",
+				"type": "Text"
+			},
+			"headline": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading1",
+						"content": {
+							"text": "Major"
+						}
+					}
+				]
+			},
+			"description": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Qui voluptate voluptate aliquip ullamco exercitation pariatur enim irure aute. Exercitation ut exercitation incididunt sit deserunt cupidatat excepteur cillum ut do proident sint. Commodo ipsum dolor fugiat fugiat id et exercitation officia est ex sint."
+						}
+					}
+				]
+			},
+			"primary_actions": {
+				"__TYPE__": "RepeatableContent",
+				"type": "Link",
+				"value": [
+					{
+						"__TYPE__": "LinkContent",
+						"key": "84e83512-7590-40a9-beba-3bc38519872f",
+						"value": {
+							"__TYPE__": "ExternalLink",
+							"url": "https://slicemachine.dev",
+							"text": "influence",
+							"variant": "secondary"
+						}
+					}
+				]
+			},
+			"metrics": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"metric_label",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "week",
+									"type": "Text"
+								}
+							],
+							[
+								"metric_value",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "follow",
+									"type": "Text"
+								}
+							]
+						]
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

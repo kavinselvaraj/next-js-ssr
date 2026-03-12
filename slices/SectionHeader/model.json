@@ -1,0 +1,31 @@
+{
+    "type": "SharedSlice",
+    "id": "section_header",
+    "name": "SectionHeader",
+    "variations": [
+        {
+            "id": "default",
+            "name": "Default",
+            "description": "Reusable title and subtitle block for homepage sections.",
+            "version": "initial",
+            "imageUrl": "",
+            "docURL": "",
+            "primary": {
+                "title": {
+                    "type": "Text",
+                    "config": {
+                        "label": "Title"
+                    }
+                },
+                "subtitle": {
+                    "type": "StructuredText",
+                    "config": {
+                        "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item",
+                        "label": "Subtitle"
+                    }
+                }
+            },
+            "items": {}
+        }
+    ]
+}

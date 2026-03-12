@@ -1,0 +1,55 @@
+[
+    {
+        "__TYPE__": "SharedSliceContent",
+        "variation": "default",
+        "primary": {
+            "headline": {
+                "__TYPE__": "StructuredTextContent",
+                "value": [
+                    {
+                        "type": "heading1",
+                        "content": {
+                            "text": "Premium journeys made seamless"
+                        }
+                    }
+                ]
+            },
+            "description": {
+                "__TYPE__": "StructuredTextContent",
+                "value": [
+                    {
+                        "type": "paragraph",
+                        "content": {
+                            "text": "Discover curated international routes, reliable schedules, and elevated cabin experiences with SkyBridge Air."
+                        }
+                    }
+                ]
+            },
+            "primary_button_label": {
+                "__TYPE__": "FieldContent",
+                "type": "Text",
+                "value": "Explore flights"
+            },
+            "primary_button_link": {
+                "__TYPE__": "LinkContent",
+                "value": {
+                    "__TYPE__": "ExternalLink",
+                    "url": "https://example.com/flights"
+                }
+            },
+            "secondary_button_label": {
+                "__TYPE__": "FieldContent",
+                "type": "Text",
+                "value": "Contact operations"
+            },
+            "secondary_button_link": {
+                "__TYPE__": "LinkContent",
+                "value": {
+                    "__TYPE__": "ExternalLink",
+                    "url": "https://example.com/contact"
+                }
+            }
+        },
+        "items": []
+    }
+]

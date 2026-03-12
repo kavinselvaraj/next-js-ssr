@@ -1,0 +1,28 @@
+{
+  "format": "page",
+  "id": "homepage",
+  "label": "Homepage",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slices",
+        "config": {
+          "choices": {
+            "hero_banner": {
+              "type": "SharedSlice"
+            },
+            "section_header": {
+              "type": "SharedSlice"
+            },
+            "featured_flights": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}

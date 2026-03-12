@@ -1,0 +1,67 @@
+{
+  "type": "SharedSlice",
+  "id": "hero_with_metrics_cards",
+  "name": "HeroWithMetricsCards",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Hero section with headline, description, action buttons, and several statistical/metrics cards displayed in a row below the actions.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "...",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow"
+          }
+        },
+        "headline": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading1",
+            "label": "Headline"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em,hyperlink",
+            "label": "Description"
+          }
+        },
+        "primary_actions": {
+          "type": "Link",
+          "config": {
+            "label": "Primary Actions",
+            "allowText": true,
+            "repeat": true,
+            "variants": ["primary", "secondary"],
+            "select": null
+          }
+        },
+        "metrics": {
+          "type": "Group",
+          "config": {
+            "label": "Metric Cards",
+            "fields": {
+              "metric_label": {
+                "type": "Text",
+                "config": {
+                  "label": "Metric Label"
+                }
+              },
+              "metric_value": {
+                "type": "Text",
+                "config": {
+                  "label": "Metric Value"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

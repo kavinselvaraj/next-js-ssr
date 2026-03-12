@@ -1,0 +1,58 @@
+{
+    "type": "SharedSlice",
+    "id": "hero_banner",
+    "name": "HeroBanner",
+    "variations": [
+        {
+            "id": "default",
+            "name": "Default",
+            "description": "Homepage hero content with primary and secondary CTA buttons.",
+            "version": "initial",
+            "imageUrl": "",
+            "docURL": "",
+            "primary": {
+                "headline": {
+                    "type": "StructuredText",
+                    "config": {
+                        "multi": "heading1,heading2,heading3,strong,em,hyperlink",
+                        "label": "Headline"
+                    }
+                },
+                "description": {
+                    "type": "StructuredText",
+                    "config": {
+                        "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item",
+                        "label": "Description"
+                    }
+                },
+                "primary_button_label": {
+                    "type": "Text",
+                    "config": {
+                        "label": "Primary Button Label"
+                    }
+                },
+                "primary_button_link": {
+                    "type": "Link",
+                    "config": {
+                        "label": "Primary Button Link",
+                        "select": null
+                    }
+                },
+                "secondary_button_label": {
+                    "type": "Text",
+                    "config": {
+                        "label": "Secondary Button Label"
+                    }
+                },
+                "secondary_button_link": {
+                    "type": "Link",
+                    "config": {
+                        "label": "Secondary Button Link",
+                        "select": null
+                    }
+                }
+            },
+            "items": {}
+        }
+    ]
+}

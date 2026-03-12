@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import FlightList from '../components/FlightList';
 import { fetchFeaturedFlights, fetchFlightSummary } from '../features/flights/flightService';
+import { getRequestLocale, hasLocalePrefix } from '../lib/requestLocale';
+import { switchLocale } from '../lib/switchLocale';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,6 +21,8 @@ const formatRenderTimestamp = (value: string) => {
 };
 
 export default async function Page() {
+  const locale = getRequestLocale();
+  const preservePrefix = hasLocalePrefix();
   const [featuredFlights, summary] = await Promise.all([
     fetchFeaturedFlights(2),
     fetchFlightSummary(),
@@ -40,13 +44,13 @@ export default async function Page() {
 
         <div className="mt-8 flex flex-wrap gap-4">
           <Link
-            href="/flights"
+            href={switchLocale('/flights', locale, { preservePrefix })}
             className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-sky-900 transition hover:bg-sky-50"
           >
             Explore flights
           </Link>
           <Link
-            href="/contact"
+            href={switchLocale('/contact', locale, { preservePrefix })}
             className="rounded-full border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
           >
             Contact operations
