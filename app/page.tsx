@@ -1,8 +1,12 @@
 import Link from 'next/link';
+import { SliceZone } from '@prismicio/react';
 import FlightList from '../components/FlightList';
 import { fetchFeaturedFlights, fetchFlightSummary } from '../features/flights/flightService';
 import { getRequestLocale, hasLocalePrefix } from '../lib/requestLocale';
 import { switchLocale } from '../lib/switchLocale';
+import { getClient } from '../lib/prismic';
+import { Locale, defaultLocale } from '../lib/i18n';
+import { components } from '../slices';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,9 +24,46 @@ const formatRenderTimestamp = (value: string) => {
   }).format(new Date(value));
 };
 
+const fetchHomepageSlices = async (locale: Locale) => {
+  try {
+    const client = getClient(locale);
+    const homepage = await client.getByUID('homepage', 'home', client.withLocale());
+    const slices = homepage.data.slices as unknown[] | undefined;
+
+    if (Array.isArray(slices) && slices.length > 0) {
+      return slices;
+    }
+  } catch {
+    // Fallback is handled below.
+  }
+
+  if (locale !== defaultLocale) {
+    try {
+      const defaultClient = getClient(defaultLocale);
+      const homepage = await defaultClient.getByUID('homepage', 'home', defaultClient.withLocale());
+      const slices = homepage.data.slices as unknown[] | undefined;
+
+      if (Array.isArray(slices) && slices.length > 0) {
+        return slices;
+      }
+    } catch {
+      // Ignore and fallback to existing homepage rendering.
+    }
+  }
+
+  return null;
+};
+
 export default async function Page() {
   const locale = getRequestLocale();
   const preservePrefix = hasLocalePrefix();
+
+  const prismicSlices = await fetchHomepageSlices(locale);
+
+  if (prismicSlices) {
+    return <SliceZone slices={prismicSlices as any} components={components as any} />;
+  }
+
   const [featuredFlights, summary] = await Promise.all([
     fetchFeaturedFlights(2),
     fetchFlightSummary(),

@@ -130,7 +130,7 @@ const getPrismicFlightById = async (id: string, locale: Locale): Promise<Flight 
   const client = getClient(locale);
 
   try {
-    const document = (await client.getByUID('flight', id, client.withLocale())) as PrismicLikeDocument;
+    const document = (await client.getByUID('flight_page', id, client.withLocale())) as PrismicLikeDocument;
     const fallback = await fetchStaticFlightById(id).catch(() => null);
     return mapPrismicDocumentToFlight(document, fallback ?? undefined);
   } catch {
@@ -141,7 +141,7 @@ const getPrismicFlightById = async (id: string, locale: Locale): Promise<Flight 
     try {
       const defaultClient = getClient(defaultLocale);
       const defaultDocument = (await defaultClient.getByUID(
-        'flight',
+        'flight_page',
         id,
         defaultClient.withLocale(),
       )) as PrismicLikeDocument;

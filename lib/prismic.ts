@@ -27,13 +27,14 @@ export type LocaleAwarePrismicClient = ReturnType<typeof createClient> & {
 /**
  * Returns the Prismic client plus a helper that applies the resolved locale to query params.
  */
-export function getClient(locale: Locale = defaultLocale): LocaleAwarePrismicClient {
+export function getClient(locale?: Locale): LocaleAwarePrismicClient {
+    const resolvedLocale = locale ?? defaultLocale;
     const client = createClient() as LocaleAwarePrismicClient;
 
-    client.locale = locale;
+    client.locale = resolvedLocale;
     client.withLocale = (params = {}) => ({
         ...params,
-        lang: locale,
+        lang: resolvedLocale,
     });
 
     return client;

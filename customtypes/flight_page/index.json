@@ -1,51 +1,51 @@
 {
   "format": "page",
   "id": "flight_page",
+  "label": "Flight Page",
+  "repeatable": true,
+  "status": true,
   "json": {
     "Main": {
-      "uid": {
-        "type": "UID",
+      "flight_number": {
+        "type": "Text",
         "config": {
-          "label": "UID"
+          "label": "Flight Number",
+          "placeholder": "e.g. AI203"
+        }
+      },
+      "route": {
+        "type": "Text",
+        "config": {
+          "label": "Route",
+          "placeholder": "e.g. DEL - BOM"
+        }
+      },
+      "departure_time": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Departure Time"
+        }
+      },
+      "arrival_time": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Arrival Time"
+        }
+      },
+      "starting_price": {
+        "type": "Number",
+        "config": {
+          "label": "Starting Price",
+          "placeholder": "e.g. 4999"
         }
       },
       "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
           "choices": {}
-        },
-        "fieldset": "Slice Zone",
-        "type": "Slices"
-      }
-    },
-    "SEO & Metadata": {
-      "meta_title": {
-        "config": {
-          "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
-        },
-        "type": "Text"
-      },
-      "meta_description": {
-        "config": {
-          "label": "Meta Description",
-          "placeholder": "A brief summary of the page"
-        },
-        "type": "Text"
-      },
-      "meta_image": {
-        "config": {
-          "constraint": {
-            "height": 1260,
-            "width": 2400
-          },
-          "label": "Meta Image",
-          "thumbnails": []
-        },
-        "type": "Image"
+        }
       }
     }
-  },
-  "label": "flight_page",
-  "repeatable": true,
-  "status": true
+  }
 }

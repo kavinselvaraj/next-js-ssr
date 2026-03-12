@@ -199,14 +199,120 @@ export type FlightsLandingDocument<Lang extends string = string> =
     Lang
   >;
 
-type HomepageDocumentDataSlicesSlice = never;
+type HomeDocumentDataSlicesSlice = never;
 
 /**
- * Content for homepage documents
+ * Content for Home documents
+ */
+interface HomeDocumentData {
+  /**
+   * sample field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.sample
+   * - **Tab**: Home
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  sample: prismic.KeyTextField;
+
+  /**
+   * sample1 field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.sample1
+   * - **Tab**: Home
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  sample1: prismic.KeyTextField;
+
+  /**
+   * test field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.test
+   * - **Tab**: Home
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  test: prismic.KeyTextField;
+
+  /**
+   * Slice Zone field in *Home*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.slices[]
+   * - **Tab**: Home
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice>; /**
+   * Meta Title field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: home.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: home.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Home*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>; /**
+   * flight select field in *Home*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: home.flight_select
+   * - **Tab**: Flight Select
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  flight_select: prismic.KeyTextField;
+}
+
+/**
+ * Home document from Prismic
+ *
+ * - **API ID**: `home`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HomeDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<HomeDocumentData>, "home", Lang>;
+
+type HomepageDocumentDataSlicesSlice =
+  | HeroBannerSlice
+  | SectionHeaderSlice
+  | FeaturedFlightsSlice;
+
+/**
+ * Content for Homepage documents
  */
 interface HomepageDocumentData {
   /**
-   * Slice Zone field in *homepage*
+   * Slices field in *Homepage*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -214,42 +320,11 @@ interface HomepageDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>; /**
-   * Meta Title field in *homepage*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: homepage.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  meta_title: prismic.KeyTextField;
-
-  /**
-   * Meta Description field in *homepage*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: homepage.meta_description
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  meta_description: prismic.KeyTextField;
-
-  /**
-   * Meta Image field in *homepage*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.meta_image
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  meta_image: prismic.ImageField<never>;
+  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>;
 }
 
 /**
- * homepage document from Prismic
+ * Homepage document from Prismic
  *
  * - **API ID**: `homepage`
  * - **Repeatable**: `true`
@@ -258,7 +333,7 @@ interface HomepageDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomepageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
+  prismic.PrismicDocumentWithoutUID<
     Simplify<HomepageDocumentData>,
     "homepage",
     Lang
@@ -267,7 +342,170 @@ export type HomepageDocument<Lang extends string = string> =
 export type AllDocumentTypes =
   | FlightPageDocument
   | FlightsLandingDocument
+  | HomeDocument
   | HomepageDocument;
+
+/**
+ * Primary content in *FeaturedFlights → Default → Primary*
+ */
+export interface FeaturedFlightsSliceDefaultPrimary {
+  /**
+   * Section Title field in *FeaturedFlights → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_flights.default.primary.section_title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  section_title: prismic.KeyTextField;
+
+  /**
+   * Max Items field in *FeaturedFlights → Default → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: 4
+   * - **API ID Path**: featured_flights.default.primary.max_items
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  max_items: prismic.NumberField;
+}
+
+/**
+ * Default variation for FeaturedFlights Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Section configuration for featured flights list rendering.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type FeaturedFlightsSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<FeaturedFlightsSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *FeaturedFlights*
+ */
+type FeaturedFlightsSliceVariation = FeaturedFlightsSliceDefault;
+
+/**
+ * FeaturedFlights Shared Slice
+ *
+ * - **API ID**: `featured_flights`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type FeaturedFlightsSlice = prismic.SharedSlice<
+  "featured_flights",
+  FeaturedFlightsSliceVariation
+>;
+
+/**
+ * Primary content in *HeroBanner → Default → Primary*
+ */
+export interface HeroBannerSliceDefaultPrimary {
+  /**
+   * Headline field in *HeroBanner → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero_banner.default.primary.headline
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  headline: prismic.RichTextField;
+
+  /**
+   * Description field in *HeroBanner → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero_banner.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Primary Button Label field in *HeroBanner → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero_banner.default.primary.primary_button_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  primary_button_label: prismic.KeyTextField;
+
+  /**
+   * Primary Button Link field in *HeroBanner → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero_banner.default.primary.primary_button_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  primary_button_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Secondary Button Label field in *HeroBanner → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero_banner.default.primary.secondary_button_label
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  secondary_button_label: prismic.KeyTextField;
+
+  /**
+   * Secondary Button Link field in *HeroBanner → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero_banner.default.primary.secondary_button_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  secondary_button_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+}
+
+/**
+ * Default variation for HeroBanner Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Homepage hero content with primary and secondary CTA buttons.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type HeroBannerSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<HeroBannerSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *HeroBanner*
+ */
+type HeroBannerSliceVariation = HeroBannerSliceDefault;
+
+/**
+ * HeroBanner Shared Slice
+ *
+ * - **API ID**: `hero_banner`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type HeroBannerSlice = prismic.SharedSlice<
+  "hero_banner",
+  HeroBannerSliceVariation
+>;
 
 /**
  * Item in *HeroWithMetricsCards → Default → Primary → Metric Cards*
@@ -389,6 +627,113 @@ export type HeroWithMetricsCardsSlice = prismic.SharedSlice<
   HeroWithMetricsCardsSliceVariation
 >;
 
+/**
+ * Primary content in *SectionHeader → Default → Primary*
+ */
+export interface SectionHeaderSliceDefaultPrimary {
+  /**
+   * Title field in *SectionHeader → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: section_header.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Subtitle field in *SectionHeader → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: section_header.default.primary.subtitle
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subtitle: prismic.RichTextField;
+}
+
+/**
+ * Default variation for SectionHeader Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Reusable title and subtitle block for homepage sections.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type SectionHeaderSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<SectionHeaderSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *SectionHeader*
+ */
+type SectionHeaderSliceVariation = SectionHeaderSliceDefault;
+
+/**
+ * SectionHeader Shared Slice
+ *
+ * - **API ID**: `section_header`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type SectionHeaderSlice = prismic.SharedSlice<
+  "section_header",
+  SectionHeaderSliceVariation
+>;
+
+/**
+ * Primary content in *Test → Default → Primary*
+ */
+export interface TestSliceDefaultPrimary {
+  /**
+   * sample field in *Test → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: test.default.primary.sample
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  sample: prismic.RichTextField;
+
+  /**
+   * image field in *Test → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: test.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>;
+}
+
+/**
+ * Default variation for Test Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TestSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<TestSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Test*
+ */
+type TestSliceVariation = TestSliceDefault;
+
+/**
+ * Test Shared Slice
+ *
+ * - **API ID**: `test`
+ * - **Description**: Test
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type TestSlice = prismic.SharedSlice<"test", TestSliceVariation>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -416,15 +761,34 @@ declare module "@prismicio/client" {
       FlightsLandingDocument,
       FlightsLandingDocumentData,
       FlightsLandingDocumentDataSlicesSlice,
+      HomeDocument,
+      HomeDocumentData,
+      HomeDocumentDataSlicesSlice,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
       AllDocumentTypes,
+      FeaturedFlightsSlice,
+      FeaturedFlightsSliceDefaultPrimary,
+      FeaturedFlightsSliceVariation,
+      FeaturedFlightsSliceDefault,
+      HeroBannerSlice,
+      HeroBannerSliceDefaultPrimary,
+      HeroBannerSliceVariation,
+      HeroBannerSliceDefault,
       HeroWithMetricsCardsSlice,
       HeroWithMetricsCardsSliceDefaultPrimaryMetricsItem,
       HeroWithMetricsCardsSliceDefaultPrimary,
       HeroWithMetricsCardsSliceVariation,
       HeroWithMetricsCardsSliceDefault,
+      SectionHeaderSlice,
+      SectionHeaderSliceDefaultPrimary,
+      SectionHeaderSliceVariation,
+      SectionHeaderSliceDefault,
+      TestSlice,
+      TestSliceDefaultPrimary,
+      TestSliceVariation,
+      TestSliceDefault,
     };
   }
 }
