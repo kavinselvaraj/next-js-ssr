@@ -6,11 +6,95 @@
   "status": true,
   "json": {
     "Main": {
-      "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
+      "uid": {
+        "type": "UID",
         "config": {
-          "choices": {}
+          "label": "UID"
+        }
+      },
+      "page_title": {
+        "type": "Text",
+        "config": {
+          "label": "Page Title",
+          "placeholder": "SkyBridge Air"
+        }
+      },
+      "page_description": {
+        "type": "Text",
+        "config": {
+          "label": "Page Description",
+          "placeholder": "Premium airline journeys"
+        }
+      },
+      "hero_headline": {
+        "type": "Text",
+        "config": {
+          "label": "Hero Headline",
+          "placeholder": "Turn this POC into a polished airline booking experience."
+        }
+      },
+      "hero_description": {
+        "type": "Text",
+        "config": {
+          "label": "Hero Description",
+          "placeholder": "SkyBridge Air renders fresh route intelligence on every request..."
+        }
+      },
+      "primary_button_text": {
+        "type": "Text",
+        "config": {
+          "label": "Primary Button Text",
+          "placeholder": "Explore flights"
+        }
+      },
+      "primary_button_link": {
+        "type": "Link",
+        "config": {
+          "label": "Primary Button Link",
+          "select": null
+        }
+      },
+      "secondary_button_text": {
+        "type": "Text",
+        "config": {
+          "label": "Secondary Button Text",
+          "placeholder": "Contact operations"
+        }
+      },
+      "secondary_button_link": {
+        "type": "Link",
+        "config": {
+          "label": "Secondary Button Link",
+          "select": null
+        }
+      }
+    },
+    "API Metrics": {
+      "routes_live": {
+        "type": "Number",
+        "config": {
+          "label": "Routes Live",
+          "placeholder": "3"
+        }
+      },
+      "average_fare": {
+        "type": "Number",
+        "config": {
+          "label": "Average Fare",
+          "placeholder": "455.67"
+        }
+      },
+      "on_time_performance": {
+        "type": "Number",
+        "config": {
+          "label": "On-time Performance (%)",
+          "placeholder": "96"
+        }
+      },
+      "updated_at": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Updated At"
         }
       }
     }

@@ -6,44 +6,24 @@
   "status": true,
   "json": {
     "Main": {
-      "flight_number": {
+      "flight_code": {
+        "type": "UID",
+        "config": {
+          "label": "Flight Code"
+        }
+      },
+      "route_name": {
         "type": "Text",
         "config": {
-          "label": "Flight Number",
-          "placeholder": "e.g. AI203"
+          "label": "Route Name",
+          "placeholder": "e.g. Dubai to London"
         }
       },
-      "route": {
+      "short_description": {
         "type": "Text",
         "config": {
-          "label": "Route",
-          "placeholder": "e.g. DEL - BOM"
-        }
-      },
-      "departure_time": {
-        "type": "Timestamp",
-        "config": {
-          "label": "Departure Time"
-        }
-      },
-      "arrival_time": {
-        "type": "Timestamp",
-        "config": {
-          "label": "Arrival Time"
-        }
-      },
-      "starting_price": {
-        "type": "Number",
-        "config": {
-          "label": "Starting Price",
-          "placeholder": "e.g. 4999"
-        }
-      },
-      "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
-        "config": {
-          "choices": {}
+          "label": "Short Description",
+          "placeholder": "Brief flight details"
         }
       }
     }

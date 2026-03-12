@@ -6,11 +6,49 @@
   "status": true,
   "json": {
     "Main": {
-      "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
+      "page_title": {
+        "type": "Text",
         "config": {
-          "choices": {}
+          "label": "Page Title",
+          "placeholder": "Flights"
+        }
+      },
+      "page_description": {
+        "type": "Text",
+        "config": {
+          "label": "Page Description",
+          "placeholder": "Browse SkyBridge Air routes"
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "Flights | SkyBridge Air"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "Browse routes with server-rendered availability and fares."
+        }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta Image",
+          "thumbnails": []
+        }
+      },
+      "canonical_url": {
+        "type": "Link",
+        "config": {
+          "label": "Canonical URL",
+          "select": "web",
+          "allowTargetBlank": false
         }
       }
     }
