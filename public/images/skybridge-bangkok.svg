@@ -1,0 +1,13 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#134E4A"/>
+  <rect y="520" width="1200" height="280" fill="#0F172A"/>
+  <circle cx="978" cy="146" r="84" fill="#FDE68A"/>
+  <path d="M0 450C163 396 319 371 477 371C666 371 833 424 934 424C1040 424 1127 383 1200 340V520H0V450Z" fill="#0F766E" opacity="0.72"/>
+  <path d="M230 536H296V278H230V536Z" fill="#FDE68A"/>
+  <path d="M202 278H324L263 170H245L202 278Z" fill="#FEF3C7"/>
+  <path d="M578 536H648V246H578V536Z" fill="#99F6E4"/>
+  <path d="M736 536H812V312H736V536Z" fill="#5EEAD4"/>
+  <path d="M902 536H978V216H902V536Z" fill="#2DD4BF"/>
+  <path d="M96 648C250 598 444 572 641 590C848 609 1042 663 1200 728V800H0V694C31 681 63 664 96 648Z" fill="#020617"/>
+  <text x="76" y="108" fill="#CCFBF1" font-family="Arial, sans-serif" font-size="52" font-weight="700">SkyBridge Air • Bangkok</text>
+</svg>

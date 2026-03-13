@@ -1,6 +1,7 @@
 export const locales = ['en-us', 'ja-jp'] as const;
 export type Locale = typeof locales[number];
 export const defaultLocale = 'en-us';
+export const localeCookieName = 'sb-locale';
 
 export const localePrefixes: Record<string, Locale> = {
     en: 'en-us',

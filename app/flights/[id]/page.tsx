@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { fetchFlightIds, fetchStaticFlightById } from '../../../features/flights/flightService';
+import { fetchStaticFlightById } from '../../../features/flights/flightService';
 import { Flight } from '../../../types/flight';
 import { Locale, defaultLocale } from '../../../lib/i18n';
 import { getRequestLocale } from '../../../lib/requestLocale';
 import { getClient } from '../../../lib/prismic';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 type PrismicLikeDocument = {
   uid?: string | null;
@@ -170,11 +170,6 @@ const formatLongDate = (value: string) => {
   }).format(new Date(value));
 };
 
-export async function generateStaticParams() {
-  const ids = await fetchFlightIds();
-  return ids.map((id) => ({ id }));
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const locale = getRequestLocale();
@@ -216,12 +211,12 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
         <div className="space-y-6 p-8">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">ISR flight detail</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">SSR flight detail</p>
             <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-900">
               {flight.flightNumber}: {flight.originCity} → {flight.destinationCity}
             </h1>
             <p className="mt-3 text-lg text-slate-600">
-              Pre-rendered for speed, then refreshed every 60 seconds in the background. Fast boarding pass energy.
+              Rendered fresh on every request so seat availability, pricing, and status always reflect the latest data.
             </p>
           </div>
 

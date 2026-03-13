@@ -28,6 +28,19 @@ export async function getFlightIds(): Promise<string[]> {
     return mockFlights.map(({ id }) => id);
 }
 
+export async function searchFlights(filters: {
+    originCode?: string;
+    destinationCode?: string;
+}): Promise<Flight[]> {
+    const all = await listFlights();
+    if (!filters.originCode && !filters.destinationCode) return all;
+    return all.filter((flight) => {
+        const originMatch = !filters.originCode || flight.originCode.toUpperCase() === filters.originCode.toUpperCase();
+        const destinationMatch = !filters.destinationCode || flight.destinationCode.toUpperCase() === filters.destinationCode.toUpperCase();
+        return originMatch && destinationMatch;
+    });
+}
+
 export async function getFlightSummary(): Promise<{
     totalFlights: number;
     averageFare: number;

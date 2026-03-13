@@ -5,6 +5,71 @@
   "repeatable": true,
   "status": true,
   "json": {
+    "Header": {
+      "brand_name": {
+        "type": "Text",
+        "config": {
+          "label": "Brand Name",
+          "placeholder": "SkyBridge Air"
+        }
+      },
+      "nav_book_flights_label": {
+        "type": "Text",
+        "config": {
+          "label": "Nav Book Flights Label",
+          "placeholder": "Book Flights"
+        }
+      },
+      "nav_manage_booking_label": {
+        "type": "Text",
+        "config": {
+          "label": "Nav Manage Booking Label",
+          "placeholder": "Manage Booking"
+        }
+      },
+      "nav_travel_info_label": {
+        "type": "Text",
+        "config": {
+          "label": "Nav Travel Info Label",
+          "placeholder": "Travel Info"
+        }
+      },
+      "nav_support_label": {
+        "type": "Text",
+        "config": {
+          "label": "Nav Support Label",
+          "placeholder": "Support"
+        }
+      },
+      "currency_label": {
+        "type": "Text",
+        "config": {
+          "label": "Currency Label",
+          "placeholder": "USD ($)"
+        }
+      },
+      "language_label": {
+        "type": "Text",
+        "config": {
+          "label": "Language Label",
+          "placeholder": "English"
+        }
+      },
+      "club_label": {
+        "type": "Text",
+        "config": {
+          "label": "Club Label",
+          "placeholder": "SkyBridge Club"
+        }
+      },
+      "login_label": {
+        "type": "Text",
+        "config": {
+          "label": "Login Label",
+          "placeholder": "Login"
+        }
+      }
+    },
     "Main": {
       "uid": {
         "type": "UID",
@@ -23,28 +88,28 @@
         "type": "Text",
         "config": {
           "label": "Page Description",
-          "placeholder": "Premium airline journeys"
+          "placeholder": "Search routes, compare fares, and book your next journey with SkyBridge Air."
         }
       },
       "hero_headline": {
         "type": "Text",
         "config": {
           "label": "Hero Headline",
-          "placeholder": "Turn this POC into a polished airline booking experience."
+          "placeholder": "Book your next flight with confidence."
         }
       },
       "hero_description": {
         "type": "Text",
         "config": {
           "label": "Hero Description",
-          "placeholder": "SkyBridge Air renders fresh route intelligence on every request..."
+          "placeholder": "Search live routes, review fares, and manage your trip from one streamlined booking experience."
         }
       },
       "primary_button_text": {
         "type": "Text",
         "config": {
           "label": "Primary Button Text",
-          "placeholder": "Explore flights"
+          "placeholder": "Search flights"
         }
       },
       "primary_button_link": {
@@ -58,7 +123,7 @@
         "type": "Text",
         "config": {
           "label": "Secondary Button Text",
-          "placeholder": "Contact operations"
+          "placeholder": "Manage booking"
         }
       },
       "secondary_button_link": {
@@ -66,6 +131,64 @@
         "config": {
           "label": "Secondary Button Link",
           "select": null
+        }
+      }
+    },
+    "Search Widget": {
+      "one_way_label": {
+        "type": "Text",
+        "config": {
+          "label": "One Way Label",
+          "placeholder": "One way"
+        }
+      },
+      "round_trip_label": {
+        "type": "Text",
+        "config": {
+          "label": "Round Trip Label",
+          "placeholder": "Round trip"
+        }
+      },
+      "origin_label": {
+        "type": "Text",
+        "config": {
+          "label": "Origin Label",
+          "placeholder": "Departure"
+        }
+      },
+      "destination_label": {
+        "type": "Text",
+        "config": {
+          "label": "Destination Label",
+          "placeholder": "Arrival"
+        }
+      },
+      "passenger_label": {
+        "type": "Text",
+        "config": {
+          "label": "Passenger Label",
+          "placeholder": "Passengers"
+        }
+      },
+      "date_label": {
+        "type": "Text",
+        "config": {
+          "label": "Date Label",
+          "placeholder": "Date"
+        }
+      },
+      "promo_code_label": {
+        "type": "Text",
+        "config": {
+          "label": "Promo Code Label",
+          "placeholder": "Add promo code"
+        }
+      },
+      "search_button_text": {
+        "type": "Text",
+        "config": {
+          "label": "Search Button Text",
+          "placeholder": "Search flights"
         }
       }
     },
@@ -95,6 +218,38 @@
         "type": "Timestamp",
         "config": {
           "label": "Updated At"
+        }
+      }
+    },
+    "Footer": {
+      "footer_support_text": {
+        "type": "Text",
+        "config": {
+          "label": "Footer Support Text",
+          "placeholder": "Need help? SkyBridge Air is here to support your journey."
+        }
+      },
+      "footer_copyright": {
+        "type": "Text",
+        "config": {
+          "label": "Footer Copyright",
+          "placeholder": "Copyright © SkyBridge Air."
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "SkyBridge Air | Book flights online"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "Search routes, compare fares, and book flights with SkyBridge Air."
         }
       }
     }

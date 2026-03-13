@@ -69,57 +69,45 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
-type FlightPageDocumentDataSlicesSlice = never;
-
 /**
- * Content for flight_page documents
+ * Content for Flight Page documents
  */
 interface FlightPageDocumentData {
   /**
-   * Slice Zone field in *flight_page*
+   * Flight Code field in *Flight Page*
    *
-   * - **Field Type**: Slice Zone
+   * - **Field Type**: UID
    * - **Placeholder**: *None*
-   * - **API ID Path**: flight_page.slices[]
+   * - **API ID Path**: flight_page.flight_code
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/fields/uid
    */
-  slices: prismic.SliceZone<FlightPageDocumentDataSlicesSlice>; /**
-   * Meta Title field in *flight_page*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: flight_page.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  meta_title: prismic.KeyTextField;
 
   /**
-   * Meta Description field in *flight_page*
+   * Route Name field in *Flight Page*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: flight_page.meta_description
-   * - **Tab**: SEO & Metadata
+   * - **Placeholder**: e.g. Dubai to London
+   * - **API ID Path**: flight_page.route_name
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  meta_description: prismic.KeyTextField;
+  route_name: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *flight_page*
+   * Short Description field in *Flight Page*
    *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: flight_page.meta_image
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Field Type**: Text
+   * - **Placeholder**: Brief flight details
+   * - **API ID Path**: flight_page.short_description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  meta_image: prismic.ImageField<never>;
+  short_description: prismic.KeyTextField;
 }
 
 /**
- * flight_page document from Prismic
+ * Flight Page document from Prismic
  *
  * - **API ID**: `flight_page`
  * - **Repeatable**: `true`
@@ -128,32 +116,41 @@ interface FlightPageDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type FlightPageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
+  prismic.PrismicDocumentWithoutUID<
     Simplify<FlightPageDocumentData>,
     "flight_page",
     Lang
   >;
 
-type FlightsLandingDocumentDataSlicesSlice = never;
-
 /**
- * Content for flights_landing documents
+ * Content for Flights Landing documents
  */
 interface FlightsLandingDocumentData {
   /**
-   * Slice Zone field in *flights_landing*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: flights_landing.slices[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
-   */
-  slices: prismic.SliceZone<FlightsLandingDocumentDataSlicesSlice>; /**
-   * Meta Title field in *flights_landing*
+   * Page Title field in *Flights Landing*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **Placeholder**: Flights
+   * - **API ID Path**: flights_landing.page_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  page_title: prismic.KeyTextField;
+
+  /**
+   * Page Description field in *Flights Landing*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Browse SkyBridge Air routes
+   * - **API ID Path**: flights_landing.page_description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  page_description: prismic.KeyTextField; /**
+   * Meta Title field in *Flights Landing*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Flights | SkyBridge Air
    * - **API ID Path**: flights_landing.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
@@ -161,10 +158,10 @@ interface FlightsLandingDocumentData {
   meta_title: prismic.KeyTextField;
 
   /**
-   * Meta Description field in *flights_landing*
+   * Meta Description field in *Flights Landing*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: A brief summary of the page
+   * - **Placeholder**: Browse routes with server-rendered availability and fares.
    * - **API ID Path**: flights_landing.meta_description
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
@@ -172,7 +169,7 @@ interface FlightsLandingDocumentData {
   meta_description: prismic.KeyTextField;
 
   /**
-   * Meta Image field in *flights_landing*
+   * Meta Image field in *Flights Landing*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -181,10 +178,27 @@ interface FlightsLandingDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/image
    */
   meta_image: prismic.ImageField<never>;
+
+  /**
+   * Canonical URL field in *Flights Landing*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: flights_landing.canonical_url
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  canonical_url: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 }
 
 /**
- * flights_landing document from Prismic
+ * Flights Landing document from Prismic
  *
  * - **API ID**: `flights_landing`
  * - **Repeatable**: `true`
@@ -193,134 +207,380 @@ interface FlightsLandingDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type FlightsLandingDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
+  prismic.PrismicDocumentWithoutUID<
     Simplify<FlightsLandingDocumentData>,
     "flights_landing",
     Lang
   >;
-
-type HomeDocumentDataSlicesSlice = never;
-
-/**
- * Content for Home documents
- */
-interface HomeDocumentData {
-  /**
-   * sample field in *Home*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.sample
-   * - **Tab**: Home
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  sample: prismic.KeyTextField;
-
-  /**
-   * sample1 field in *Home*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.sample1
-   * - **Tab**: Home
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  sample1: prismic.KeyTextField;
-
-  /**
-   * test field in *Home*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.test
-   * - **Tab**: Home
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  test: prismic.KeyTextField;
-
-  /**
-   * Slice Zone field in *Home*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.slices[]
-   * - **Tab**: Home
-   * - **Documentation**: https://prismic.io/docs/slices
-   */
-  slices: prismic.SliceZone<HomeDocumentDataSlicesSlice>; /**
-   * Meta Title field in *Home*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A title of the page used for social media and search engines
-   * - **API ID Path**: home.meta_title
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  meta_title: prismic.KeyTextField;
-
-  /**
-   * Meta Description field in *Home*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: A brief summary of the page
-   * - **API ID Path**: home.meta_description
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  meta_description: prismic.KeyTextField;
-
-  /**
-   * Meta Image field in *Home*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.meta_image
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  meta_image: prismic.ImageField<never>; /**
-   * flight select field in *Home*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: home.flight_select
-   * - **Tab**: Flight Select
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  flight_select: prismic.KeyTextField;
-}
-
-/**
- * Home document from Prismic
- *
- * - **API ID**: `home`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type HomeDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<Simplify<HomeDocumentData>, "home", Lang>;
-
-type HomepageDocumentDataSlicesSlice =
-  | HeroBannerSlice
-  | SectionHeaderSlice
-  | FeaturedFlightsSlice;
 
 /**
  * Content for Homepage documents
  */
 interface HomepageDocumentData {
   /**
-   * Slices field in *Homepage*
+   * Brand Name field in *Homepage*
    *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.slices[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Field Type**: Text
+   * - **Placeholder**: SkyBridge Air
+   * - **API ID Path**: homepage.brand_name
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
    */
-  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>;
+  brand_name: prismic.KeyTextField;
+
+  /**
+   * Nav Book Flights Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Book Flights
+   * - **API ID Path**: homepage.nav_book_flights_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  nav_book_flights_label: prismic.KeyTextField;
+
+  /**
+   * Nav Manage Booking Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Manage Booking
+   * - **API ID Path**: homepage.nav_manage_booking_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  nav_manage_booking_label: prismic.KeyTextField;
+
+  /**
+   * Nav Travel Info Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Travel Info
+   * - **API ID Path**: homepage.nav_travel_info_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  nav_travel_info_label: prismic.KeyTextField;
+
+  /**
+   * Nav Support Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Support
+   * - **API ID Path**: homepage.nav_support_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  nav_support_label: prismic.KeyTextField;
+
+  /**
+   * Currency Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: USD ($)
+   * - **API ID Path**: homepage.currency_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  currency_label: prismic.KeyTextField;
+
+  /**
+   * Language Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: English
+   * - **API ID Path**: homepage.language_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  language_label: prismic.KeyTextField;
+
+  /**
+   * Club Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: SkyBridge Club
+   * - **API ID Path**: homepage.club_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  club_label: prismic.KeyTextField;
+
+  /**
+   * Login Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Login
+   * - **API ID Path**: homepage.login_label
+   * - **Tab**: Header
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  login_label: prismic.KeyTextField; /**
+   * Page Title field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: SkyBridge Air
+   * - **API ID Path**: homepage.page_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  page_title: prismic.KeyTextField;
+
+  /**
+   * Page Description field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Search routes, compare fares, and book your next journey with SkyBridge Air.
+   * - **API ID Path**: homepage.page_description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  page_description: prismic.KeyTextField;
+
+  /**
+   * Hero Headline field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Book your next flight with confidence.
+   * - **API ID Path**: homepage.hero_headline
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  hero_headline: prismic.KeyTextField;
+
+  /**
+   * Hero Description field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Search live routes, review fares, and manage your trip from one streamlined booking experience.
+   * - **API ID Path**: homepage.hero_description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  hero_description: prismic.KeyTextField;
+
+  /**
+   * Primary Button Text field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Search flights
+   * - **API ID Path**: homepage.primary_button_text
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  primary_button_text: prismic.KeyTextField;
+
+  /**
+   * Primary Button Link field in *Homepage*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.primary_button_link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  primary_button_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
+   * Secondary Button Text field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Manage booking
+   * - **API ID Path**: homepage.secondary_button_text
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  secondary_button_text: prismic.KeyTextField;
+
+  /**
+   * Secondary Button Link field in *Homepage*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.secondary_button_link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  secondary_button_link: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >; /**
+   * One Way Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: One way
+   * - **API ID Path**: homepage.one_way_label
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  one_way_label: prismic.KeyTextField;
+
+  /**
+   * Round Trip Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Round trip
+   * - **API ID Path**: homepage.round_trip_label
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  round_trip_label: prismic.KeyTextField;
+
+  /**
+   * Origin Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Departure
+   * - **API ID Path**: homepage.origin_label
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  origin_label: prismic.KeyTextField;
+
+  /**
+   * Destination Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Arrival
+   * - **API ID Path**: homepage.destination_label
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  destination_label: prismic.KeyTextField;
+
+  /**
+   * Passenger Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Passengers
+   * - **API ID Path**: homepage.passenger_label
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  passenger_label: prismic.KeyTextField;
+
+  /**
+   * Date Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Date
+   * - **API ID Path**: homepage.date_label
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  date_label: prismic.KeyTextField;
+
+  /**
+   * Promo Code Label field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Add promo code
+   * - **API ID Path**: homepage.promo_code_label
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  promo_code_label: prismic.KeyTextField;
+
+  /**
+   * Search Button Text field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Search flights
+   * - **API ID Path**: homepage.search_button_text
+   * - **Tab**: Search Widget
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  search_button_text: prismic.KeyTextField; /**
+   * Routes Live field in *Homepage*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: 3
+   * - **API ID Path**: homepage.routes_live
+   * - **Tab**: API Metrics
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  routes_live: prismic.NumberField;
+
+  /**
+   * Average Fare field in *Homepage*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: 455.67
+   * - **API ID Path**: homepage.average_fare
+   * - **Tab**: API Metrics
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  average_fare: prismic.NumberField;
+
+  /**
+   * On-time Performance (%) field in *Homepage*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: 96
+   * - **API ID Path**: homepage.on_time_performance
+   * - **Tab**: API Metrics
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  on_time_performance: prismic.NumberField;
+
+  /**
+   * Updated At field in *Homepage*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.updated_at
+   * - **Tab**: API Metrics
+   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   */
+  updated_at: prismic.TimestampField; /**
+   * Footer Support Text field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Need help? SkyBridge Air is here to support your journey.
+   * - **API ID Path**: homepage.footer_support_text
+   * - **Tab**: Footer
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  footer_support_text: prismic.KeyTextField;
+
+  /**
+   * Footer Copyright field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Copyright © SkyBridge Air.
+   * - **API ID Path**: homepage.footer_copyright
+   * - **Tab**: Footer
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  footer_copyright: prismic.KeyTextField; /**
+   * Meta Title field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: SkyBridge Air | Book flights online
+   * - **API ID Path**: homepage.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Search routes, compare fares, and book flights with SkyBridge Air.
+   * - **API ID Path**: homepage.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
 }
 
 /**
@@ -333,7 +593,7 @@ interface HomepageDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type HomepageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<HomepageDocumentData>,
     "homepage",
     Lang
@@ -342,7 +602,6 @@ export type HomepageDocument<Lang extends string = string> =
 export type AllDocumentTypes =
   | FlightPageDocument
   | FlightsLandingDocument
-  | HomeDocument
   | HomepageDocument;
 
 /**
@@ -475,6 +734,16 @@ export interface HeroBannerSliceDefaultPrimary {
     prismic.FieldState,
     never
   >;
+
+  /**
+   * Kavin field in *HeroBanner → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero_banner.default.primary.kavin
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  kavin: prismic.KeyTextField;
 }
 
 /**
@@ -682,58 +951,6 @@ export type SectionHeaderSlice = prismic.SharedSlice<
   SectionHeaderSliceVariation
 >;
 
-/**
- * Primary content in *Test → Default → Primary*
- */
-export interface TestSliceDefaultPrimary {
-  /**
-   * sample field in *Test → Default → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: test.default.primary.sample
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  sample: prismic.RichTextField;
-
-  /**
-   * image field in *Test → Default → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: test.default.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
-   */
-  image: prismic.ImageField<never>;
-}
-
-/**
- * Default variation for Test Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type TestSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<TestSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *Test*
- */
-type TestSliceVariation = TestSliceDefault;
-
-/**
- * Test Shared Slice
- *
- * - **API ID**: `test`
- * - **Description**: Test
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type TestSlice = prismic.SharedSlice<"test", TestSliceVariation>;
-
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -757,16 +974,10 @@ declare module "@prismicio/client" {
     export type {
       FlightPageDocument,
       FlightPageDocumentData,
-      FlightPageDocumentDataSlicesSlice,
       FlightsLandingDocument,
       FlightsLandingDocumentData,
-      FlightsLandingDocumentDataSlicesSlice,
-      HomeDocument,
-      HomeDocumentData,
-      HomeDocumentDataSlicesSlice,
       HomepageDocument,
       HomepageDocumentData,
-      HomepageDocumentDataSlicesSlice,
       AllDocumentTypes,
       FeaturedFlightsSlice,
       FeaturedFlightsSliceDefaultPrimary,
@@ -785,10 +996,6 @@ declare module "@prismicio/client" {
       SectionHeaderSliceDefaultPrimary,
       SectionHeaderSliceVariation,
       SectionHeaderSliceDefault,
-      TestSlice,
-      TestSliceDefaultPrimary,
-      TestSliceVariation,
-      TestSliceDefault,
     };
   }
 }
