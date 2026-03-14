@@ -59,15 +59,18 @@ jobs:
           fi
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --cwd=apps/ibe-app --token="$VERCEL_TOKEN"
+        working-directory: apps/ibe-app
+        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
 
       - name: Build Vercel Preview Artifacts
-        run: vercel build --cwd=apps/ibe-app --token="$VERCEL_TOKEN"
+        working-directory: apps/ibe-app
+        run: vercel build --token="$VERCEL_TOKEN"
 
       - name: Deploy Preview ibe-app to Vercel
         id: deploy
+        working-directory: apps/ibe-app
         run: |
-          preview_url=$(vercel deploy --prebuilt --cwd=apps/ibe-app --token="$VERCEL_TOKEN" | tail -n 1)
+          preview_url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN" | tail -n 1)
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
 
       - name: Comment Preview URL on PR
@@ -154,15 +157,18 @@ jobs:
           fi
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --cwd=apps/admin-app --token="$VERCEL_TOKEN"
+        working-directory: apps/admin-app
+        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
 
       - name: Build Vercel Preview Artifacts
-        run: vercel build --cwd=apps/admin-app --token="$VERCEL_TOKEN"
+        working-directory: apps/admin-app
+        run: vercel build --token="$VERCEL_TOKEN"
 
       - name: Deploy Preview admin-app to Vercel
         id: deploy
+        working-directory: apps/admin-app
         run: |
-          preview_url=$(vercel deploy --prebuilt --cwd=apps/admin-app --token="$VERCEL_TOKEN" | tail -n 1)
+          preview_url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN" | tail -n 1)
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
 
       - name: Comment Preview URL on PR
