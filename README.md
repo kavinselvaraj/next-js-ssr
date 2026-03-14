@@ -1,80 +1,23 @@
-# SkyBridge Air
+# SkyBridge Monorepo
 
-A production-grade Next.js airline POC using mixed rendering strategies (SSR, ISR, CSR) with clean architecture.
+This repository is now a **Turborepo + pnpm workspace** with multiple apps.
 
-## CI/CD Deployment (GitHub Actions + Vercel)
+## Apps
 
-This repository includes:
+- `apps/ibe-app` — existing IBE customer-facing app (migrated from previous root app)
+- `apps/admin-app` — new admin app
 
-- `.github/workflows/deploy.yml` for production deploys
-- `.github/workflows/preview.yml` for PR preview deploys
+## Workspace commands
 
-- On every push to `main`, it:
-	- installs dependencies
-	- builds the Next.js app
-	- deploys production to Vercel
+From repository root:
 
-- On every pull request targeting `main`, it:
-	- builds preview artifacts
-	- deploys a Vercel preview environment
+- `pnpm dev` — run all app dev servers in parallel
+- `pnpm dev:ibe` — run only `ibe-app`
+- `pnpm dev:admin` — run only `admin-app`
+- `pnpm lint` — run lint in all apps via turbo
+- `pnpm build` — build all apps via turbo
 
-### Required GitHub Actions configuration
+## Notes
 
-Add these as either **Secrets** or **Variables** in:
-**GitHub → Repository → Settings → Secrets and variables → Actions**
-
-- `VERCEL_TOKEN`
-- `VERCEL_ORG_ID`
-- `VERCEL_PROJECT_ID`
-
-### How to get Vercel IDs
-
-After linking this project locally with Vercel CLI (`vercel link`), values are available in `.vercel/project.json`:
-
-- `orgId` → `VERCEL_ORG_ID`
-- `projectId` → `VERCEL_PROJECT_ID`
-
-## Folder Structure
-
-- `pages/` - Primary routing (SSR/ISR/CSR) and API routes
-- `components/` - Pure UI, reusable, stateless
-- `features/flights/` - Airline business/domain logic
-- `services/` - API communication, easily swappable
-- `lib/` - Utilities, fetch wrappers, error handling
-- `types/` - Shared TypeScript types
-- `mocks/` - Mock data for APIs
-- `styles/` - Global styles (Tailwind)
-
-## Setup
-
-```bash
-pnpm install
-pnpm dev
-```
-
-## Build
-
-```bash
-pnpm build
-pnpm start
-```
-
-## Testing
-
-- Place tests alongside modules, e.g., `features/flights/flightService.test.ts`.
-- Use dependency injection for services to enable mocking.
-
-## Architecture
-
-- Layered, clean architecture
-- SSR for flight discovery pages
-- ISR for flight detail pages
-- CSR for support/contact pages
-- Mock API with realistic latency and errors
-- Strong TypeScript typing
-- Centralized error handling
-- Loading and error boundaries
-- SEO metadata per page
-- Accessibility-friendly components
-
----
+- `admin-app` runs on port `3001` by default.
+- Legacy single-app root structure has been migrated into `apps/ibe-app`.

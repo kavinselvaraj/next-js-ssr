@@ -1,0 +1,51 @@
+{
+  "extends": [
+    "next/core-web-vitals"
+  ],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": [
+              "**/components/FlightCard",
+              "**/components/FlightList",
+              "**/components/FlightResults",
+              "**/components/HomepageSearchForm"
+            ],
+            "message": "Use feature components from features/flight-search/components instead of legacy top-level components."
+          },
+          {
+            "group": [
+              "**/features/flights/*"
+            ],
+            "message": "Use features/flight-search/services for flight domain logic."
+          },
+          {
+            "group": [
+              "**/services/flightApi",
+              "**/services/flightSearchService"
+            ],
+            "message": "Use services/api/* and services/flight/* modules."
+          },
+          {
+            "group": [
+              "**/store/flightSearchStore",
+              "**/types/flightSearch"
+            ],
+            "message": "Use feature-local modules: features/flight-search/store and features/flight-search/types."
+          },
+          {
+            "group": [
+              "**/lib/requestLocale",
+              "**/lib/switchLocale",
+              "**/lib/languageOptions"
+            ],
+            "message": "Use lib/i18n/* modules (index, requestLocale, switchLocale, languageOptions)."
+          }
+        ]
+      }
+    ]
+  }
+}

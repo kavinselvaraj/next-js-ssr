@@ -1,5 +1,7 @@
 .next/
+apps/*/.next/
 node_modules/
+apps/*/node_modules/
 .env
 .env.local
 .env.development.local
@@ -12,3 +14,4 @@ build/
 *.log
 .DS_Store
 .vercel
+.turbo/
