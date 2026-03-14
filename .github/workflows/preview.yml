@@ -15,14 +15,13 @@ permissions:
   pull-requests: write
 
 jobs:
-  deploy-preview:
-    name: Deploy Preview
+  deploy-preview-ibe:
+    name: Deploy Preview (ibe-app)
     runs-on: ubuntu-latest
-    # Deployment temporarily disabled. Change this to your normal condition when ready.
-    if: ${{ false }}
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || vars.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID || vars.VERCEL_PROJECT_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_IBE || vars.VERCEL_PROJECT_ID_IBE }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN || vars.VERCEL_TOKEN }}
 
     steps:
@@ -49,11 +48,11 @@ jobs:
 
           [[ -z "${VERCEL_TOKEN//[[:space:]]/}" ]] && missing+=("VERCEL_TOKEN")
           [[ -z "${VERCEL_ORG_ID//[[:space:]]/}" ]] && missing+=("VERCEL_ORG_ID")
-          [[ -z "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && missing+=("VERCEL_PROJECT_ID")
+          [[ -z "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && missing+=("VERCEL_PROJECT_ID_IBE")
 
           echo "VERCEL_TOKEN set: $([[ -n "${VERCEL_TOKEN//[[:space:]]/}" ]] && echo yes || echo no)"
           echo "VERCEL_ORG_ID set: $([[ -n "${VERCEL_ORG_ID//[[:space:]]/}" ]] && echo yes || echo no)"
-          echo "VERCEL_PROJECT_ID set: $([[ -n "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_PROJECT_ID_IBE set: $([[ -n "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && echo yes || echo no)"
 
           if (( ${#missing[@]} > 0 )); then
             printf 'Missing Vercel configuration keys: %s\n' "${missing[*]}"
@@ -62,15 +61,15 @@ jobs:
           fi
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+        run: vercel pull --yes --environment=preview --cwd=apps/ibe-app --token="$VERCEL_TOKEN"
 
       - name: Build Vercel Preview Artifacts
-        run: vercel build --token="$VERCEL_TOKEN"
+        run: vercel build --cwd=apps/ibe-app --token="$VERCEL_TOKEN"
 
-      - name: Deploy Preview to Vercel
+      - name: Deploy Preview ibe-app to Vercel
         id: deploy
         run: |
-          preview_url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN" | tail -n 1)
+          preview_url=$(vercel deploy --prebuilt --cwd=apps/ibe-app --token="$VERCEL_TOKEN" | tail -n 1)
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
 
       - name: Comment Preview URL on PR
@@ -84,8 +83,105 @@ jobs:
               return;
             }
 
-            const marker = '<!-- vercel-preview-comment -->';
-            const body = `${marker}\n✅ Vercel preview is ready: ${previewUrl}`;
+            const marker = '<!-- vercel-preview-comment-ibe -->';
+            const body = `${marker}\n✅ ibe-app preview is ready: ${previewUrl}`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+
+  deploy-preview-admin:
+    name: Deploy Preview (admin-app)
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN || vars.VERCEL_PROJECT_ID_ADMIN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN || vars.VERCEL_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Validate Vercel Configuration
+        shell: bash
+        run: |
+          missing=()
+
+          [[ -z "${VERCEL_TOKEN//[[:space:]]/}" ]] && missing+=("VERCEL_TOKEN")
+          [[ -z "${VERCEL_ORG_ID//[[:space:]]/}" ]] && missing+=("VERCEL_ORG_ID")
+          [[ -z "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && missing+=("VERCEL_PROJECT_ID_ADMIN")
+
+          echo "VERCEL_TOKEN set: $([[ -n "${VERCEL_TOKEN//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_ORG_ID set: $([[ -n "${VERCEL_ORG_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_PROJECT_ID_ADMIN set: $([[ -n "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+
+          if (( ${#missing[@]} > 0 )); then
+            printf 'Missing Vercel configuration keys: %s\n' "${missing[*]}"
+            echo "Add these values as GitHub Actions Secrets or Variables."
+            exit 1
+          fi
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --cwd=apps/admin-app --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel Preview Artifacts
+        run: vercel build --cwd=apps/admin-app --token="$VERCEL_TOKEN"
+
+      - name: Deploy Preview admin-app to Vercel
+        id: deploy
+        run: |
+          preview_url=$(vercel deploy --prebuilt --cwd=apps/admin-app --token="$VERCEL_TOKEN" | tail -n 1)
+          echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+
+      - name: Comment Preview URL on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = '${{ steps.deploy.outputs.preview_url }}';
+            if (!previewUrl) {
+              core.setFailed('Preview URL was not captured from deploy step.');
+              return;
+            }
+
+            const marker = '<!-- vercel-preview-comment-admin -->';
+            const body = `${marker}\n✅ admin-app preview is ready: ${previewUrl}`;
 
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,

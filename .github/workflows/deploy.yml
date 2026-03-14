@@ -35,15 +35,14 @@ jobs:
       - name: Build app
         run: pnpm build
 
-  deploy-production:
-    name: Deploy Production
+  deploy-production-ibe:
+    name: Deploy Production (ibe-app)
     runs-on: ubuntu-latest
     needs: build-and-test
-    # Deployment temporarily disabled. Set this back to your branch condition when ready.
-    if: ${{ false }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || vars.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID || vars.VERCEL_PROJECT_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_IBE || vars.VERCEL_PROJECT_ID_IBE }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN || vars.VERCEL_TOKEN }}
 
     steps:
@@ -70,11 +69,11 @@ jobs:
 
           [[ -z "${VERCEL_TOKEN//[[:space:]]/}" ]] && missing+=("VERCEL_TOKEN")
           [[ -z "${VERCEL_ORG_ID//[[:space:]]/}" ]] && missing+=("VERCEL_ORG_ID")
-          [[ -z "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && missing+=("VERCEL_PROJECT_ID")
+          [[ -z "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && missing+=("VERCEL_PROJECT_ID_IBE")
 
           echo "VERCEL_TOKEN set: $([[ -n "${VERCEL_TOKEN//[[:space:]]/}" ]] && echo yes || echo no)"
           echo "VERCEL_ORG_ID set: $([[ -n "${VERCEL_ORG_ID//[[:space:]]/}" ]] && echo yes || echo no)"
-          echo "VERCEL_PROJECT_ID set: $([[ -n "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_PROJECT_ID_IBE set: $([[ -n "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && echo yes || echo no)"
 
           if (( ${#missing[@]} > 0 )); then
             printf 'Missing Vercel configuration keys: %s\n' "${missing[*]}"
@@ -83,10 +82,65 @@ jobs:
           fi
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+        run: vercel pull --yes --environment=production --cwd=apps/ibe-app --token="$VERCEL_TOKEN"
 
       - name: Build Vercel Artifacts
-        run: vercel build --prod --token="$VERCEL_TOKEN"
+        run: vercel build --prod --cwd=apps/ibe-app --token="$VERCEL_TOKEN"
 
-      - name: Deploy to Vercel
-        run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+      - name: Deploy ibe-app to Vercel
+        run: vercel deploy --prebuilt --prod --cwd=apps/ibe-app --token="$VERCEL_TOKEN"
+
+  deploy-production-admin:
+    name: Deploy Production (admin-app)
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: ${{ github.ref == 'refs/heads/main' }}
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN || vars.VERCEL_PROJECT_ID_ADMIN }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN || vars.VERCEL_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Validate Vercel Configuration
+        shell: bash
+        run: |
+          missing=()
+
+          [[ -z "${VERCEL_TOKEN//[[:space:]]/}" ]] && missing+=("VERCEL_TOKEN")
+          [[ -z "${VERCEL_ORG_ID//[[:space:]]/}" ]] && missing+=("VERCEL_ORG_ID")
+          [[ -z "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && missing+=("VERCEL_PROJECT_ID_ADMIN")
+
+          echo "VERCEL_TOKEN set: $([[ -n "${VERCEL_TOKEN//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_ORG_ID set: $([[ -n "${VERCEL_ORG_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+          echo "VERCEL_PROJECT_ID_ADMIN set: $([[ -n "${VERCEL_PROJECT_ID//[[:space:]]/}" ]] && echo yes || echo no)"
+
+          if (( ${#missing[@]} > 0 )); then
+            printf 'Missing Vercel configuration keys: %s\n' "${missing[*]}"
+            echo "Add these values as GitHub Actions Secrets or Variables."
+            exit 1
+          fi
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --cwd=apps/admin-app --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel Artifacts
+        run: vercel build --prod --cwd=apps/admin-app --token="$VERCEL_TOKEN"
+
+      - name: Deploy admin-app to Vercel
+        run: vercel deploy --prebuilt --prod --cwd=apps/admin-app --token="$VERCEL_TOKEN"
