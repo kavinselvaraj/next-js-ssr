@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    transpilePackages: ['@skybridge/ui'],
+  transpilePackages: ['@repo/ui'],
 };
 
 export default nextConfig;

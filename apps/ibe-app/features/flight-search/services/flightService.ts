@@ -1,10 +1,10 @@
 import { getFlight, getFlights } from '../../../services/api/flightApi';
 import {
-    getFeaturedFlights,
-    getFlightIds,
-    getFlightRecord,
-    getFlightSummary,
-    listFlights,
+  getFeaturedFlights,
+  getFlightIds,
+  getFlightRecord,
+  getFlightSummary,
+  listFlights,
 } from './flightData';
 
 export const fetchAllFlights = async (baseUrl?: string) => getFlights(baseUrl);
@@ -15,11 +15,11 @@ export const fetchFeaturedFlights = async (limit = 2) => getFeaturedFlights(limi
 export const fetchFlightSummary = async () => getFlightSummary();
 
 export const fetchStaticFlightById = async (id: string) => {
-    const flight = await getFlightRecord(id);
+  const flight = await getFlightRecord(id);
 
-    if (!flight) {
-        throw new Error('Flight not found');
-    }
+  if (!flight) {
+    throw new Error('Flight not found');
+  }
 
-    return flight;
+  return flight;
 };

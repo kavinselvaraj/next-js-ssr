@@ -10,13 +10,13 @@ This repository includes:
 - `.github/workflows/preview.yml` for PR preview deploys
 
 - On every push to `main`, it:
-	- installs dependencies
-	- builds the Next.js app
-	- deploys production to Vercel
+  - installs dependencies
+  - builds the Next.js app
+  - deploys production to Vercel
 
 - On every pull request targeting `main`, it:
-	- builds preview artifacts
-	- deploys a Vercel preview environment
+  - builds preview artifacts
+  - deploys a Vercel preview environment
 
 ### Required GitHub Actions configuration
 

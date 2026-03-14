@@ -1,18 +1,27 @@
 {
-    "name": "my-ssr-app-monorepo",
-    "version": "1.0.0",
-    "private": true,
-    "packageManager": "pnpm@10.30.3",
-    "scripts": {
-        "dev": "turbo dev --parallel",
-        "dev:ibe": "turbo dev --filter=ibe-app",
-        "dev:admin": "turbo dev --filter=admin-app",
-        "build": "turbo build",
-        "lint": "turbo lint",
-        "start": "turbo start",
-        "slicemachine": "turbo slicemachine --filter=ibe-app"
-    },
-    "devDependencies": {
-        "turbo": "^2.5.6"
-    }
+  "name": "my-ssr-app-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "scripts": {
+    "dev": "turbo dev --parallel",
+    "dev:ibe": "turbo dev --filter=ibe-app",
+    "dev:admin": "turbo dev --filter=admin-app",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "prepare": "husky",
+    "start": "turbo start",
+    "slicemachine": "turbo slicemachine --filter=ibe-app"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,json,css,scss,md,mdx,yml,yaml}": "prettier --write"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.4",
+    "prettier": "^3.8.1",
+    "turbo": "^2.5.6"
+  }
 }

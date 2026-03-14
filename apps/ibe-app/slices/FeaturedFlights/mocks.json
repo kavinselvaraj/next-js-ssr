@@ -1,19 +1,19 @@
 [
-    {
-        "__TYPE__": "SharedSliceContent",
-        "variation": "default",
-        "primary": {
-            "section_title": {
-                "__TYPE__": "FieldContent",
-                "type": "Text",
-                "value": "Featured flights"
-            },
-            "max_items": {
-                "__TYPE__": "FieldContent",
-                "type": "Number",
-                "value": 4
-            }
-        },
-        "items": []
-    }
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default",
+    "primary": {
+      "section_title": {
+        "__TYPE__": "FieldContent",
+        "type": "Text",
+        "value": "Featured flights"
+      },
+      "max_items": {
+        "__TYPE__": "FieldContent",
+        "type": "Number",
+        "value": 4
+      }
+    },
+    "items": []
+  }
 ]

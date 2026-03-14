@@ -4,19 +4,19 @@ import { localePrefixes, resolveLocaleFromSegment } from '../../lib/i18n/index';
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-    return Object.keys(localePrefixes).map((locale) => ({ locale }));
+  return Object.keys(localePrefixes).map((locale) => ({ locale }));
 }
 
 export default function LocaleLayout({
-    children,
-    params,
+  children,
+  params,
 }: {
-    children: React.ReactNode;
-    params: { locale: string };
+  children: React.ReactNode;
+  params: { locale: string };
 }) {
-    if (!resolveLocaleFromSegment(params.locale)) {
-        notFound();
-    }
+  if (!resolveLocaleFromSegment(params.locale)) {
+    notFound();
+  }
 
-    return children;
+  return children;
 }

@@ -1,25 +1,25 @@
 [
-    {
-        "__TYPE__": "SharedSliceContent",
-        "variation": "default",
-        "primary": {
-            "title": {
-                "__TYPE__": "FieldContent",
-                "type": "Text",
-                "value": "Featured routes"
-            },
-            "subtitle": {
-                "__TYPE__": "StructuredTextContent",
-                "value": [
-                    {
-                        "type": "paragraph",
-                        "content": {
-                            "text": "Popular long-haul and business-first options updated in real time."
-                        }
-                    }
-                ]
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default",
+    "primary": {
+      "title": {
+        "__TYPE__": "FieldContent",
+        "type": "Text",
+        "value": "Featured routes"
+      },
+      "subtitle": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Popular long-haul and business-first options updated in real time."
             }
-        },
-        "items": []
-    }
+          }
+        ]
+      }
+    },
+    "items": []
+  }
 ]

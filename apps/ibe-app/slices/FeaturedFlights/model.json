@@ -1,31 +1,31 @@
 {
-    "type": "SharedSlice",
-    "id": "featured_flights",
-    "name": "FeaturedFlights",
-    "variations": [
-        {
-            "id": "default",
-            "name": "Default",
-            "description": "Section configuration for featured flights list rendering.",
-            "version": "initial",
-            "imageUrl": "",
-            "docURL": "",
-            "primary": {
-                "section_title": {
-                    "type": "Text",
-                    "config": {
-                        "label": "Section Title"
-                    }
-                },
-                "max_items": {
-                    "type": "Number",
-                    "config": {
-                        "label": "Max Items",
-                        "placeholder": "4"
-                    }
-                }
-            },
-            "items": {}
+  "type": "SharedSlice",
+  "id": "featured_flights",
+  "name": "FeaturedFlights",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Section configuration for featured flights list rendering.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "",
+      "primary": {
+        "section_title": {
+          "type": "Text",
+          "config": {
+            "label": "Section Title"
+          }
+        },
+        "max_items": {
+          "type": "Number",
+          "config": {
+            "label": "Max Items",
+            "placeholder": "4"
+          }
         }
-    ]
+      },
+      "items": {}
+    }
+  ]
 }
