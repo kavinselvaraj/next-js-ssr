@@ -1,9 +1,9 @@
-import React from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 type AppContainerProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 };
 
 export function AppContainer({ children, className, style }: AppContainerProps) {
@@ -15,9 +15,9 @@ export function AppContainer({ children, className, style }: AppContainerProps) 
 }
 
 type AppSectionProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 };
 
 export function AppSection({ children, className, style }: AppSectionProps) {
