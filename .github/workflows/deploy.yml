@@ -78,15 +78,12 @@ jobs:
           fi
 
       - name: Pull Vercel Environment Information
-        working-directory: apps/ibe-app
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
 
       - name: Build Vercel Artifacts
-        working-directory: apps/ibe-app
         run: vercel build --prod --token="$VERCEL_TOKEN"
 
       - name: Deploy ibe-app to Vercel
-        working-directory: apps/ibe-app
         run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
 
   deploy-production-admin:
@@ -134,13 +131,10 @@ jobs:
           fi
 
       - name: Pull Vercel Environment Information
-        working-directory: apps/admin-app
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
 
       - name: Build Vercel Artifacts
-        working-directory: apps/admin-app
         run: vercel build --prod --token="$VERCEL_TOKEN"
 
       - name: Deploy admin-app to Vercel
-        working-directory: apps/admin-app
         run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
