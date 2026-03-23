@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useAppDispatch } from 'store/hooks';
+import { setSearch } from '../store';
 import type { DropdownOption, FlightSearchValidationErrors, TripType } from '../types/flightSearch';
-import { useFlightSearchStore } from '../store/flightSearchStore';
 
 type HomepageSearchFormProps = {
   locale: 'en-us' | 'ja-jp';
@@ -58,7 +59,7 @@ export default function HomepageSearchForm({
   searchHref,
 }: HomepageSearchFormProps) {
   const router = useRouter();
-  const setSearch = useFlightSearchStore((s) => s.setSearch);
+  const dispatch = useAppDispatch();
   const formRef = useRef<HTMLFormElement | null>(null);
   const isJapanese = locale === 'ja-jp';
 
@@ -172,10 +173,12 @@ export default function HomepageSearchForm({
     }
 
     setValidationErrors((prev) => {
-      const next = { ...prev };
-      delete (next as Record<string, string | undefined>)[field];
-      if (field === 'origin' || field === 'destination') delete next.sameRoute;
-      return next;
+      const { [field as keyof FlightSearchValidationErrors]: _omit, ...rest } = prev;
+      if (field === 'origin' || field === 'destination') {
+        const { sameRoute: _sr, ...final } = rest;
+        return final;
+      }
+      return rest;
     });
 
     setOpenDropdown(null);
@@ -223,16 +226,18 @@ export default function HomepageSearchForm({
 
     setValidationErrors({});
 
-    setSearch({
-      tripType,
-      originCode: originOption!.value,
-      originLabel: originOption!.label,
-      destinationCode: destinationOption!.value,
-      destinationLabel: destinationOption!.label,
-      passengers: parseInt(passengersOption!.value, 10),
-      departureDate: departureDateOption!.value,
-      returnDate: tripType === 'roundTrip' ? returnDateOption?.value : undefined,
-    });
+    dispatch(
+      setSearch({
+        tripType,
+        originCode: originOption?.value,
+        originLabel: originOption?.label,
+        destinationCode: destinationOption?.value,
+        destinationLabel: destinationOption?.label,
+        passengers: Number.parseInt(passengersOption?.value ?? '', 10),
+        departureDate: departureDateOption?.value,
+        returnDate: tripType === 'roundTrip' ? returnDateOption?.value : undefined,
+      }),
+    );
 
     router.push(searchHref);
   };
@@ -260,7 +265,7 @@ export default function HomepageSearchForm({
 
     return (
       <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 rounded-xl border border-slate-200 bg-white p-2 shadow-2xl">
-        <ul role="listbox" aria-label={`${field}-options`} className="space-y-1">
+        <ul aria-label={`${field}-options`} className="space-y-1">
           {dropdownOptions[field].map((option) => (
             <li key={`${field}-${option.value}`}>
               <button

@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Guide & Code Standards</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --heading: #111827;
+            --border: #e5e7eb;
+            --code-bg: #f8fafc;
+            --inline-code-bg: #f3f4f6;
+            --accent: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+                'Apple Color Emoji', 'Segoe UI Emoji';
+            line-height: 1.7;
+        }
+
+        .page {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--heading);
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 2.25rem;
+            margin-bottom: 0.75rem;
+            padding-top: 0.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-top: 1.4rem;
+            margin-bottom: 0.45rem;
+        }
+
+        p {
+            margin: 0.6rem 0;
+        }
+
+        ul,
+        ol {
+            margin: 0.4rem 0 0.8rem 1.2rem;
+        }
+
+        li {
+            margin: 0.2rem 0;
+        }
+
+        .lead {
+            color: var(--muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .callout {
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin: 1rem 0;
+            color: #374151;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+            background: var(--inline-code-bg);
+            padding: 0.12rem 0.38rem;
+            border-radius: 6px;
+            font-size: 0.92em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            overflow-x: auto;
+            margin: 0.8rem 0 1rem;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .toc {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin: 1rem 0 1.5rem;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.8rem 0 1.2rem;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f9fafb;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <h1>Developer Guide &amp; Code Standards</h1>
+        <p class="lead">
+            Audience: Mid-to-senior engineers building and operating modern web applications.
+        </p>
+
+        <div class="toc">
+            <strong>Sections</strong>
+            <ol>
+                <li><a href="#project-overview">Project Overview</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#folder-structure">Folder Structure</a></li>
+                <li><a href="#coding-standards">Coding Standards</a></li>
+                <li><a href="#git-workflow">Git Workflow</a></li>
+                <li><a href="#api-guidelines">API Guidelines</a></li>
+                <li><a href="#testing">Testing</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="#deployment">Deployment</a></li>
+                <li><a href="#dos-and-donts">Do’s and Don’ts</a></li>
+            </ol>
+        </div>
+
+        <h2 id="project-overview">Project Overview</h2>
+        <h3>Purpose</h3>
+        <p>
+            This guide establishes shared engineering standards for delivering maintainable, secure,
+            and scalable web products with consistent quality across teams.
+        </p>
+
+        <h3>Typical Tech Stack</h3>
+        <ul>
+            <li>Next.js (App Router), React, TypeScript</li>
+            <li>State: Redux Toolkit / React Query (as appropriate)</li>
+            <li>Styling: Tailwind CSS or CSS Modules</li>
+            <li>Lint/Format: Biome (or ESLint + formatter equivalent)</li>
+            <li>CI/CD: GitHub Actions + cloud deployment platform</li>
+        </ul>
+
+        <h3>Scope</h3>
+        <p>
+            Apply this document to all frontend, API, and infrastructure-facing changes unless a
+            repository-specific standard supersedes it.
+        </p>
+
+        <h2 id="architecture">Architecture</h2>
+        <h3>Recommended high-level architecture</h3>
+        <ul>
+            <li><strong>Presentation Layer:</strong> routes, pages, and UI components</li>
+            <li><strong>Feature Layer:</strong> domain-specific behavior and orchestration</li>
+            <li><strong>Service Layer:</strong> API clients, adapters, and external integrations</li>
+            <li><strong>Shared Layer:</strong> reusable UI, utility functions, and type contracts</li>
+        </ul>
+
+        <h3>Principles</h3>
+        <ul>
+            <li>Keep boundaries explicit and dependencies directional.</li>
+            <li>Prefer Server Components by default; use Client Components intentionally.</li>
+            <li>Move business logic out of route files into testable modules.</li>
+        </ul>
+
+        <div class="callout">
+            <strong>Rule of thumb:</strong> Route files should compose and coordinate; services and
+            features should implement behavior.
+        </div>
+
+        <h2 id="folder-structure">Folder Structure</h2>
+        <pre><code>.
+├─ app/                    # Routes, layouts, route handlers
+├─ components/             # Shared presentational components
+├─ features/               # Domain modules (feature-first)
+├─ services/               # External API/data providers
+├─ lib/                    # Utilities and cross-cutting helpers
+├─ store/                  # Global client state (if needed)
+├─ types/                  # Shared TypeScript contracts
+├─ styles/                 # Global/theme styling
+└─ tests/                  # Integration/e2e suites (optional location)
+</code></pre>
+
+        <h3>Naming conventions</h3>
+        <ul>
+            <li>Components: <code>PascalCase.tsx</code> (e.g., <code>FlightResults.tsx</code>)</li>
+            <li>Helpers/services: descriptive <code>camelCase.ts</code> or <code>kebab-case.ts</code></li>
+            <li>Tests: <code>*.test.ts</code> / <code>*.test.tsx</code></li>
+            <li>Barrel exports: <code>index.ts</code> at package/feature boundaries</li>
+        </ul>
+
+        <h2 id="coding-standards">Coding Standards</h2>
+        <h3>Core standards</h3>
+        <ul>
+            <li>Optimize for readability and future maintainers.</li>
+            <li>Use strict typing and explicit contracts.</li>
+            <li>Favor small, focused functions and composable modules.</li>
+            <li>Avoid hidden side effects and implicit behavior.</li>
+        </ul>
+
+        <h3>File organization</h3>
+        <ol>
+            <li>Imports (external, aliases, relative)</li>
+            <li>Types/interfaces</li>
+            <li>Constants/helpers</li>
+            <li>Main implementation</li>
+            <li>Exports</li>
+        </ol>
+
+        <h3>Formatting</h3>
+        <ul>
+            <li>Enforce with automated tooling in CI and pre-commit.</li>
+            <li>Do not manually reformat unrelated files in functional PRs.</li>
+        </ul>
+
+        <pre><code># Example quality gate
+pnpm lint
+pnpm check
+pnpm build
+</code></pre>
+
+        <h2 id="git-workflow">Git Workflow</h2>
+        <h3>Branch strategy</h3>
+        <ul>
+            <li><code>main</code>: releasable trunk</li>
+            <li><code>feature/&lt;topic&gt;</code>: feature development</li>
+            <li><code>fix/&lt;topic&gt;</code>: bug fixes</li>
+            <li><code>hotfix/&lt;topic&gt;</code>: urgent production corrections</li>
+        </ul>
+
+        <h3>Commit conventions</h3>
+        <p>Use Conventional Commits:</p>
+        <pre><code>feat(auth): add token refresh strategy
+fix(api): validate required query params
+docs(guide): clarify branching model
+</code></pre>
+
+        <h3>Pull request standards</h3>
+        <ul>
+            <li>State problem, approach, risks, and tradeoffs.</li>
+            <li>Attach screenshots for UI changes.</li>
+            <li>Include validation evidence (lint, tests, build).</li>
+            <li>Keep PRs focused and reviewable.</li>
+        </ul>
+
+        <h2 id="api-guidelines">API Guidelines</h2>
+        <h3>Design rules</h3>
+        <ul>
+            <li>Use predictable REST semantics and clear resource naming.</li>
+            <li>Keep handlers thin; delegate to services/use-cases.</li>
+            <li>Return stable JSON envelopes.</li>
+        </ul>
+
+        <pre><code>{
+  "data": { "id": "f_123" },
+  "error": null,
+  "meta": { "requestId": "req_abc" }
+}
+</code></pre>
+
+        <h3>Error handling</h3>
+        <ul>
+            <li>Map domain failures to correct status codes (<code>400/401/403/404/422/500</code>).</li>
+            <li>Do not leak stack traces to clients.</li>
+        </ul>
+
+        <h3>Validation and logging</h3>
+        <ul>
+            <li>Validate body/query/headers at API boundaries.</li>
+            <li>Log structured context (without secrets/PII).</li>
+        </ul>
+
+        <h2 id="testing">Testing</h2>
+        <h3>Unit testing</h3>
+        <ul>
+            <li>Test pure logic and edge cases first.</li>
+            <li>Mock network/time/randomness for deterministic runs.</li>
+        </ul>
+
+        <h3>Integration testing</h3>
+        <ul>
+            <li>Verify critical user flows and API contracts.</li>
+            <li>Cover feature orchestration across module boundaries.</li>
+        </ul>
+
+        <h3>Naming example</h3>
+        <pre><code>describe('searchFlights')
+  it('returns filtered flights when origin and destination are provided')
+</code></pre>
+
+        <h2 id="security">Security</h2>
+        <h3>Authentication &amp; Authorization</h3>
+        <ul>
+            <li>Enforce authorization server-side for sensitive operations.</li>
+            <li>Use least privilege for roles and service credentials.</li>
+        </ul>
+
+        <h3>Data protection</h3>
+        <ul>
+            <li>Treat all client input as untrusted.</li>
+            <li>Validate and sanitize inputs and outputs.</li>
+        </ul>
+
+        <h3>Secrets management</h3>
+        <ul>
+            <li>Never commit secrets to source control.</li>
+            <li>Use environment variables and secret stores in CI/CD platforms.</li>
+            <li>Maintain an <code>.env.example</code> without real credentials.</li>
+        </ul>
+
+        <h2 id="deployment">Deployment</h2>
+        <h3>Environment model</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Environment</th>
+                    <th>Purpose</th>
+                    <th>Trigger</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Development</td>
+                    <td>Local developer iteration</td>
+                    <td>Manual (<code>pnpm dev</code>)</td>
+                </tr>
+                <tr>
+                    <td>Preview</td>
+                    <td>PR validation and stakeholder review</td>
+                    <td>Pull request events</td>
+                </tr>
+                <tr>
+                    <td>Production</td>
+                    <td>Customer-facing release</td>
+                    <td>Merge/push to <code>main</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>CI/CD baseline</h3>
+        <ol>
+            <li>Install dependencies using lockfile</li>
+            <li>Run static checks and tests</li>
+            <li>Build deployable artifacts</li>
+            <li>Deploy and publish release metadata</li>
+        </ol>
+
+        <h2 id="dos-and-donts">Do’s and Don’ts</h2>
+        <h3>Do</h3>
+        <ul>
+            <li>✅ Keep modules small, cohesive, and testable.</li>
+            <li>✅ Document tradeoffs in PRs and architectural changes.</li>
+            <li>✅ Prefer typed contracts over loosely shaped objects.</li>
+            <li>✅ Automate checks in CI and pre-commit hooks.</li>
+        </ul>
+
+        <h3>Don’t</h3>
+        <ul>
+            <li>❌ Mix routing, business rules, and integration logic in one file.</li>
+            <li>❌ Add global state for purely local UI concerns.</li>
+            <li>❌ Depend on manual formatting/linting discipline.</li>
+            <li>❌ Expose internal error details or secrets in logs/responses.</li>
+        </ul>
+
+        <div class="callout muted">
+            This guide is a living document. Update it in the same pull request whenever you introduce
+            a new architectural or coding pattern.
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,8 +1,0 @@
-node_modules
-.next
-.turbo
-coverage
-dist
-build
-pnpm-lock.yaml
-*.min.js

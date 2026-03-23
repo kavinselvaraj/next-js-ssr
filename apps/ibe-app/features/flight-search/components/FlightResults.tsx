@@ -1,16 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useFlightSearchStore } from '../store/flightSearchStore';
+import { useAppSelector } from 'store/hooks';
+import type { Flight } from '../../../types/flight';
 import { searchFlightsAction } from '../actions';
 import FlightList from './FlightList';
-import type { Flight } from '../../../types/flight';
 
 type Status = 'idle' | 'loading' | 'success' | 'empty' | 'error';
 
 export default function FlightResults() {
   const { hasSearched, originCode, destinationCode, originLabel, destinationLabel } =
-    useFlightSearchStore();
+    useAppSelector((state) => state.flightSearch);
 
   const [flights, setFlights] = useState<Flight[]>([]);
   const [status, setStatus] = useState<Status>('idle');
@@ -57,6 +57,7 @@ export default function FlightResults() {
     return (
       <div className="flex items-center justify-center py-16">
         <svg
+          role="img"
           className="h-8 w-8 animate-spin text-emerald-600"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

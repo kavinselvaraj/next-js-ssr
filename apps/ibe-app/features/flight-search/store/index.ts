@@ -1,1 +1,1 @@
-export * from './flightSearchStore';
+export * from './flightSearchSlice';
