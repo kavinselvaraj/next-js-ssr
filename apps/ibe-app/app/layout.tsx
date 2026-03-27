@@ -22,13 +22,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={localeToHtmlLang(locale)}>
-      <body className="bg-slate-50 text-slate-900">
+      <body className="overflow-x-hidden bg-slate-50 text-slate-900">
         <header className="border-b border-slate-200 bg-white text-slate-900 shadow-sm">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 md:px-6">
-            <div className="flex items-center gap-8">
+          <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 md:gap-4 md:px-6">
+            <div className="flex min-w-0 items-center gap-4 md:gap-8">
               <Link
                 href={switchLocale('/', locale, { preservePrefix })}
-                className="font-serif text-[2rem] font-semibold tracking-tight text-slate-900"
+                className="truncate font-serif text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl md:text-[2rem]"
               >
                 {homepageContent.brandName}
               </Link>
@@ -63,7 +63,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </nav>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-700">
+            <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-700 sm:gap-3 sm:text-sm md:gap-4">
               <span>{homepageContent.currencyLabel}</span>
               <LanguageSwitcher
                 locale={locale}
@@ -76,7 +76,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </span>
               <Link
                 href={switchLocale('/contact', locale, { preservePrefix })}
-                className="rounded-xl border border-emerald-700 px-4 py-2 font-semibold text-emerald-700 transition hover:bg-emerald-50"
+                className="rounded-xl border border-emerald-700 px-3 py-1.5 font-semibold text-emerald-700 transition hover:bg-emerald-50 sm:px-4 sm:py-2"
               >
                 {homepageContent.loginLabel}
               </Link>
@@ -85,7 +85,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </header>
 
         <Providers locale={locale}>
-          <main className="mx-auto max-w-7xl">{children}</main>
+          <main className="mx-auto w-full max-w-7xl">{children}</main>
         </Providers>
 
         <footer className="border-t border-white/10 bg-[#05090c]">

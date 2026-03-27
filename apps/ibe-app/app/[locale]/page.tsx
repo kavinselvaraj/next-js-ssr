@@ -28,10 +28,10 @@ export default async function LocalizedHomePage({ params }: { params: { locale: 
   const primaryHref = switchLocale(resolvedHomepage.primaryButtonLink, locale, { preservePrefix });
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-x-hidden bg-white text-slate-900">
-      <section className="mx-auto max-w-7xl space-y-10 px-4 py-6 pb-10 md:px-6 md:py-8">
-        <section className="px-4 py-8 md:px-8 md:py-12">
-          <div className="mx-auto max-w-5xl">
+    <div className="w-full bg-white text-slate-900">
+      <section className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 md:py-8">
+        <section className="py-4 md:py-8 lg:py-10">
+          <div className="mx-auto w-full max-w-5xl">
             <AppSection className="mb-6">
               <AppPageHeader
                 title={resolvedHomepage.heroHeadline}

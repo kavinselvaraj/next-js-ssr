@@ -1,8 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Modal } from 'components/common/modal';
 import { useAppDispatch } from 'store/hooks';
+import { CalendarModal, MOCK_CALENDAR_MONTHS } from '../../booking';
 import { setSearch } from '../store';
 import type { DropdownOption, FlightSearchValidationErrors, TripType } from '../types/flightSearch';
 
@@ -20,6 +22,96 @@ type HomepageSearchFormProps = {
 };
 
 type DropdownField = 'origin' | 'destination' | 'passengers' | 'departureDate' | 'returnDate';
+type AirportSelectionField = 'origin' | 'destination';
+
+type AirportOption = {
+  city: string;
+  code: string;
+  airport: string;
+  country: string;
+  selected?: boolean;
+};
+
+const AIRPORT_OPTIONS: AirportOption[] = [
+  {
+    city: 'Tokyo (Narita)',
+    code: 'NRT',
+    airport: 'Narita International Airport',
+    country: 'Japan',
+  },
+  {
+    city: 'Seoul',
+    code: 'ICN',
+    airport: 'Incheon International Airport',
+    country: 'South Korea',
+  },
+  {
+    city: 'Manila',
+    code: 'MNL',
+    airport: 'Ninoy Aquino International Airport',
+    country: 'Philippines',
+  },
+  {
+    city: 'Bangkok',
+    code: 'BKK',
+    airport: 'Suvarnabhumi Airport',
+    country: 'Thailand',
+  },
+  {
+    city: 'Singapore',
+    code: 'SIN',
+    airport: 'Singapore Changi Airport',
+    country: 'Singapore',
+  },
+  {
+    city: 'Honolulu',
+    code: 'HNL',
+    airport: 'Daniel K. Inouye International Airport',
+    country: 'United States',
+  },
+  {
+    city: 'Vancouver',
+    code: 'YVR',
+    airport: 'Vancouver International Airport',
+    country: 'Canada',
+  },
+  {
+    city: 'San Francisco',
+    code: 'SFO',
+    airport: 'San Francisco International Airport',
+    country: 'United States',
+  },
+  {
+    city: 'San Jose',
+    code: 'SJC',
+    airport: 'Norman Y. Mineta San Jose International Airport',
+    country: 'United States',
+  },
+  {
+    city: 'Los Angeles',
+    code: 'LAX',
+    airport: 'Los Angeles International Airport',
+    country: 'United States',
+  },
+  {
+    city: 'Houston',
+    code: 'IAH',
+    airport: 'George Bush Intercontinental Airport',
+    country: 'United States',
+    selected: true,
+  },
+];
+
+const toAirportDropdownOption = (airport: AirportOption): DropdownOption => ({
+  value: airport.code,
+  label: `${airport.city} (${airport.code})`,
+});
+
+const AIRPORT_OPTIONS_MAP = new Map<string, AirportOption>(
+  AIRPORT_OPTIONS.map((airport) => [airport.code, airport]),
+);
+
+const DEFAULT_SELECTED_AIRPORT_OPTION = AIRPORT_OPTIONS.find((airport) => airport.selected);
 
 const getISODate = (daysFromNow: number): string => {
   const d = new Date();
@@ -66,11 +158,18 @@ export default function HomepageSearchForm({
   const [tripType, setTripType] = useState<TripType>('oneWay');
   const [openDropdown, setOpenDropdown] = useState<DropdownField | null>(null);
   const [originOption, setOriginOption] = useState<DropdownOption | null>(null);
-  const [destinationOption, setDestinationOption] = useState<DropdownOption | null>(null);
+  const [destinationOption, setDestinationOption] = useState<DropdownOption | null>(
+    DEFAULT_SELECTED_AIRPORT_OPTION ? toAirportDropdownOption(DEFAULT_SELECTED_AIRPORT_OPTION) : null,
+  );
   const [passengersOption, setPassengersOption] = useState<DropdownOption | null>(null);
   const [departureDateOption, setDepartureDateOption] = useState<DropdownOption | null>(null);
   const [returnDateOption, setReturnDateOption] = useState<DropdownOption | null>(null);
   const [validationErrors, setValidationErrors] = useState<FlightSearchValidationErrors>({});
+  const [isDepartureDateCalendarOpen, setIsDepartureDateCalendarOpen] = useState(false);
+  const [isReturnDateCalendarOpen, setIsReturnDateCalendarOpen] = useState(false);
+  const [airportSelectionField, setAirportSelectionField] = useState<AirportSelectionField | null>(
+    null,
+  );
 
   const dropdownOptions = useMemo<Record<DropdownField, DropdownOption[]>>(() => {
     const departureDateOptions = dedupeOptionsByValue([
@@ -79,18 +178,12 @@ export default function HomepageSearchForm({
       { value: getNextSaturdayISODate(), label: isJapanese ? '今週末' : 'This weekend' },
     ]);
 
+    const airportDropdownOptions = AIRPORT_OPTIONS.map(toAirportDropdownOption);
+
     if (isJapanese) {
       return {
-        origin: [
-          { value: 'NRT', label: '東京 (NRT)' },
-          { value: 'KIX', label: '大阪 (KIX)' },
-          { value: 'SIN', label: 'シンガポール (SIN)' },
-        ],
-        destination: [
-          { value: 'ICN', label: 'ソウル (ICN)' },
-          { value: 'BKK', label: 'バンコク (BKK)' },
-          { value: 'HNL', label: 'ホノルル (HNL)' },
-        ],
+        origin: airportDropdownOptions,
+        destination: airportDropdownOptions,
         passengers: [
           { value: '1', label: '1名' },
           { value: '2', label: '2名' },
@@ -107,16 +200,8 @@ export default function HomepageSearchForm({
     }
 
     return {
-      origin: [
-        { value: 'NRT', label: 'Tokyo (NRT)' },
-        { value: 'KIX', label: 'Osaka (KIX)' },
-        { value: 'SIN', label: 'Singapore (SIN)' },
-      ],
-      destination: [
-        { value: 'ICN', label: 'Seoul (ICN)' },
-        { value: 'BKK', label: 'Bangkok (BKK)' },
-        { value: 'HNL', label: 'Honolulu (HNL)' },
-      ],
+      origin: airportDropdownOptions,
+      destination: airportDropdownOptions,
       passengers: [
         { value: '1', label: '1 passenger' },
         { value: '2', label: '2 passengers' },
@@ -153,6 +238,15 @@ export default function HomepageSearchForm({
     setOpenDropdown((prev) => (prev === field ? null : field));
   };
 
+  const openAirportSelectionModal = (field: AirportSelectionField) => {
+    setOpenDropdown(null);
+    setAirportSelectionField(field);
+  };
+
+  const closeAirportSelectionModal = () => {
+    setAirportSelectionField(null);
+  };
+
   const selectOption = (field: DropdownField, option: DropdownOption) => {
     switch (field) {
       case 'origin':
@@ -173,12 +267,12 @@ export default function HomepageSearchForm({
     }
 
     setValidationErrors((prev) => {
-      const { [field as keyof FlightSearchValidationErrors]: _omit, ...rest } = prev;
+      const next: FlightSearchValidationErrors = { ...prev };
+      delete next[field as keyof FlightSearchValidationErrors];
       if (field === 'origin' || field === 'destination') {
-        const { sameRoute: _sr, ...final } = rest;
-        return final;
+        delete next.sameRoute;
       }
-      return rest;
+      return next;
     });
 
     setOpenDropdown(null);
@@ -224,17 +318,27 @@ export default function HomepageSearchForm({
       return;
     }
 
+    if (
+      !originOption ||
+      !destinationOption ||
+      !passengersOption ||
+      !departureDateOption ||
+      (tripType === 'roundTrip' && !returnDateOption)
+    ) {
+      return;
+    }
+
     setValidationErrors({});
 
     dispatch(
       setSearch({
         tripType,
-        originCode: originOption?.value,
-        originLabel: originOption?.label,
-        destinationCode: destinationOption?.value,
-        destinationLabel: destinationOption?.label,
-        passengers: Number.parseInt(passengersOption?.value ?? '', 10),
-        departureDate: departureDateOption?.value,
+        originCode: originOption.value,
+        originLabel: originOption.label,
+        destinationCode: destinationOption.value,
+        destinationLabel: destinationOption.label,
+        passengers: Number.parseInt(passengersOption.value, 10),
+        departureDate: departureDateOption.value,
         returnDate: tripType === 'roundTrip' ? returnDateOption?.value : undefined,
       }),
     );
@@ -242,14 +346,26 @@ export default function HomepageSearchForm({
     router.push(searchHref);
   };
 
-  const fieldValueClassName = 'text-2xl font-medium text-slate-700';
+  const fieldValueClassName =
+    'min-w-0 break-words text-lg font-medium leading-snug text-slate-700 sm:text-xl md:text-2xl';
 
-  const getFieldClassName = (field: DropdownField, muted = false) => {
-    const isOpen = openDropdown === field;
+  const formatDateLabel = useCallback(
+    (isoDate: string): string => {
+      const d = new Date(`${isoDate}T00:00:00`);
+      if (isJapanese) {
+        return `${d.getMonth() + 1}月${d.getDate()}日`;
+      }
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    },
+    [isJapanese],
+  );
+
+  const getFieldClassName = (field: DropdownField, muted = false, forceOpen = false) => {
+    const isOpen = forceOpen || openDropdown === field;
     const hasError = !!(validationErrors as Record<string, string | undefined>)[field];
 
     return [
-      'flex w-full cursor-pointer items-center justify-between rounded-xl border px-5 py-5 text-left shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
+      'flex w-full min-w-0 cursor-pointer items-center justify-between rounded-xl border px-4 py-4 text-left shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:px-5 sm:py-5',
       muted ? 'bg-slate-50' : 'bg-white',
       hasError
         ? 'border-red-400 ring-1 ring-red-400'
@@ -261,6 +377,7 @@ export default function HomepageSearchForm({
   };
 
   const renderDropdown = (field: DropdownField) => {
+    if (field === 'origin' || field === 'destination') return null;
     if (openDropdown !== field) return null;
 
     return (
@@ -292,14 +409,34 @@ export default function HomepageSearchForm({
     );
   };
 
+  const airportSelectionModalTitle =
+    airportSelectionField === 'origin'
+      ? isJapanese
+        ? '出発地選択'
+        : 'Select departure airport'
+      : airportSelectionField === 'destination'
+        ? isJapanese
+          ? '到着地選択'
+          : 'Select destination airport'
+        : undefined;
+
+  const selectedAirportOption =
+    airportSelectionField === 'origin'
+      ? originOption
+      : airportSelectionField === 'destination'
+        ? destinationOption
+        : null;
+
+  const getAirportDetails = (code: string) => AIRPORT_OPTIONS_MAP.get(code);
+
   return (
     <form
       ref={formRef}
       onSubmit={handleSearch}
       noValidate
-      className="rounded-[1.75rem] bg-white p-6 shadow-[0_28px_80px_rgba(0,0,0,0.35)] md:p-8"
+      className="w-full overflow-hidden rounded-[1.5rem] bg-white p-4 shadow-[0_18px_48px_rgba(0,0,0,0.2)] sm:rounded-[1.75rem] sm:p-6 md:p-8"
     >
-      <div className="grid gap-3 md:max-w-xl md:grid-cols-2">
+      <div className="grid w-full gap-3 md:max-w-xl md:grid-cols-2">
         <button
           type="button"
           onClick={() => setTripType('oneWay')}
@@ -344,13 +481,13 @@ export default function HomepageSearchForm({
           <div className="relative">
             <button
               type="button"
-              onClick={() => toggleDropdown('origin')}
+              onClick={() => openAirportSelectionModal('origin')}
               aria-label={`${isJapanese ? '出発地を選択' : 'Select departure'}: ${originOption?.label ?? originLabel}`}
-              aria-expanded={openDropdown === 'origin'}
-              aria-haspopup="listbox"
-              className={getFieldClassName('origin')}
+              aria-expanded={airportSelectionField === 'origin'}
+              aria-haspopup="dialog"
+              className={getFieldClassName('origin', false, airportSelectionField === 'origin')}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex min-w-0 items-center gap-3">
                 <span className="text-xl text-emerald-600">◉</span>
                 <span
                   className={
@@ -362,7 +499,6 @@ export default function HomepageSearchForm({
               </span>
               <span className="text-emerald-600">⌄</span>
             </button>
-            {renderDropdown('origin')}
           </div>
           {renderFieldError('origin')}
         </div>
@@ -378,13 +514,13 @@ export default function HomepageSearchForm({
           <div className="relative">
             <button
               type="button"
-              onClick={() => toggleDropdown('destination')}
+              onClick={() => openAirportSelectionModal('destination')}
               aria-label={`${isJapanese ? '到着地を選択' : 'Select destination'}: ${destinationOption?.label ?? destinationLabel}`}
-              aria-expanded={openDropdown === 'destination'}
-              aria-haspopup="listbox"
-              className={getFieldClassName('destination', true)}
+              aria-expanded={airportSelectionField === 'destination'}
+              aria-haspopup="dialog"
+              className={getFieldClassName('destination', true, airportSelectionField === 'destination')}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex min-w-0 items-center gap-3">
                 <span
                   className={
                     destinationOption ? fieldValueClassName : `${fieldValueClassName} opacity-40`
@@ -395,7 +531,6 @@ export default function HomepageSearchForm({
               </span>
               <span className="text-slate-400">⌄</span>
             </button>
-            {renderDropdown('destination')}
           </div>
           {renderFieldError('destination')}
         </div>
@@ -418,7 +553,7 @@ export default function HomepageSearchForm({
               aria-haspopup="listbox"
               className={getFieldClassName('passengers')}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex min-w-0 items-center gap-3">
                 <span
                   className={
                     passengersOption ? fieldValueClassName : `${fieldValueClassName} opacity-40`
@@ -438,13 +573,13 @@ export default function HomepageSearchForm({
           <div className="relative">
             <button
               type="button"
-              onClick={() => toggleDropdown('departureDate')}
+              onClick={() => setIsDepartureDateCalendarOpen(true)}
               aria-label={`${isJapanese ? '出発日を選択' : 'Select departure date'}: ${departureDateOption?.label ?? dateLabel}`}
-              aria-expanded={openDropdown === 'departureDate'}
-              aria-haspopup="listbox"
-              className={getFieldClassName('departureDate', true)}
+              aria-expanded={isDepartureDateCalendarOpen}
+              aria-haspopup="dialog"
+              className={getFieldClassName('departureDate', true, isDepartureDateCalendarOpen)}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex min-w-0 items-center gap-3">
                 <span
                   className={
                     departureDateOption ? fieldValueClassName : `${fieldValueClassName} opacity-40`
@@ -453,9 +588,8 @@ export default function HomepageSearchForm({
                   {departureDateOption?.label ?? dateLabel}
                 </span>
               </span>
-              <span className="text-slate-400">⌄</span>
+              <span className="text-slate-400">📅</span>
             </button>
-            {renderDropdown('departureDate')}
           </div>
           {renderFieldError('departureDate')}
         </div>
@@ -468,13 +602,13 @@ export default function HomepageSearchForm({
             <div className="relative">
               <button
                 type="button"
-                onClick={() => toggleDropdown('returnDate')}
+                onClick={() => setIsReturnDateCalendarOpen(true)}
                 aria-label={`${isJapanese ? '帰国日を選択' : 'Select return date'}: ${returnDateOption?.label ?? (isJapanese ? '帰国日' : 'Return date')}`}
-                aria-expanded={openDropdown === 'returnDate'}
-                aria-haspopup="listbox"
-                className={getFieldClassName('returnDate', true)}
+                aria-expanded={isReturnDateCalendarOpen}
+                aria-haspopup="dialog"
+                className={getFieldClassName('returnDate', true, isReturnDateCalendarOpen)}
               >
-                <span className="flex items-center gap-3">
+                <span className="flex min-w-0 items-center gap-3">
                   <span
                     className={
                       returnDateOption ? fieldValueClassName : `${fieldValueClassName} opacity-40`
@@ -483,19 +617,106 @@ export default function HomepageSearchForm({
                     {returnDateOption?.label ?? (isJapanese ? '帰国日' : 'Return date')}
                   </span>
                 </span>
-                <span className="text-slate-400">⌄</span>
+                <span className="text-slate-400">📅</span>
               </button>
-              {renderDropdown('returnDate')}
             </div>
             {renderFieldError('returnDate')}
           </div>
         </div>
       )}
 
+      <CalendarModal
+        isOpen={isDepartureDateCalendarOpen}
+        onClose={() => setIsDepartureDateCalendarOpen(false)}
+        onConfirm={(date) => {
+          if (date) {
+            selectOption('departureDate', { value: date, label: formatDateLabel(date) });
+          }
+          setIsDepartureDateCalendarOpen(false);
+        }}
+        initialDate={departureDateOption?.value ?? null}
+        months={MOCK_CALENDAR_MONTHS}
+      />
+
+      <CalendarModal
+        isOpen={isReturnDateCalendarOpen}
+        onClose={() => setIsReturnDateCalendarOpen(false)}
+        onConfirm={(date) => {
+          if (date) {
+            selectOption('returnDate', { value: date, label: formatDateLabel(date) });
+          }
+          setIsReturnDateCalendarOpen(false);
+        }}
+        initialDate={returnDateOption?.value ?? null}
+        months={MOCK_CALENDAR_MONTHS}
+      />
+
+      <Modal
+        isOpen={airportSelectionField !== null}
+        onClose={closeAirportSelectionModal}
+        title={airportSelectionModalTitle}
+        ariaLabel={airportSelectionModalTitle}
+        size="full"
+        zIndex={200}
+        className="mx-2 my-2 sm:mx-4 sm:my-4 md:mx-6 md:my-6 lg:mx-auto lg:max-w-4xl"
+        showFooter={false}
+        bodyConfig={{ padding: 'sm', scrollable: true }}
+      >
+        {airportSelectionField ? (
+          <ul
+            aria-label={`${airportSelectionField}-options`}
+            className="grid grid-cols-1 gap-2 sm:grid-cols-2"
+          >
+            {dropdownOptions[airportSelectionField].map((option) => {
+              const isSelected = selectedAirportOption?.value === option.value;
+              const airportDetails = getAirportDetails(option.value);
+              const displayTitle = airportDetails
+                ? `${airportDetails.city} (${airportDetails.code})`
+                : option.label;
+              const displaySubtitle = airportDetails
+                ? `${airportDetails.airport} (${airportDetails.country})`
+                : undefined;
+
+              return (
+                <li key={`${airportSelectionField}-${option.value}`}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      selectOption(airportSelectionField, option);
+                      closeAirportSelectionModal();
+                    }}
+                    className={[
+                      'w-full cursor-pointer rounded-xl border px-4 py-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500',
+                      isSelected
+                        ? 'border-emerald-400 bg-emerald-50 text-emerald-800'
+                        : 'border-slate-200 bg-white text-slate-700 hover:bg-emerald-50 hover:text-emerald-700',
+                    ].join(' ')}
+                  >
+                    <span className="flex min-w-0 items-center justify-between gap-3">
+                      <span className="min-w-0 flex-1 overflow-hidden">
+                        <span className="block text-lg font-semibold leading-snug sm:text-xl">
+                          {displayTitle}
+                        </span>
+                        {displaySubtitle ? (
+                          <span className="mt-1 block overflow-hidden text-ellipsis text-xs text-slate-600 sm:text-sm">
+                            {displaySubtitle}
+                          </span>
+                        ) : null}
+                      </span>
+                      {isSelected ? <span className="shrink-0 text-emerald-600">✓</span> : null}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
+      </Modal>
+
       <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-end">
         <button
           type="submit"
-          className="inline-flex min-w-[16rem] cursor-pointer items-center justify-center rounded-xl bg-emerald-700 px-8 py-4 text-lg font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          className="inline-flex w-full cursor-pointer items-center justify-center rounded-xl bg-emerald-700 px-6 py-3.5 text-base font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 sm:w-auto sm:min-w-[14rem] sm:px-8 sm:py-4 sm:text-lg"
         >
           {searchButtonText}
         </button>

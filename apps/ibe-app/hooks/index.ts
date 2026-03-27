@@ -1,1 +1,1 @@
-export {};
+export { clearSessionAuthData, useSessionTimeout } from './useSessionTimeout';
