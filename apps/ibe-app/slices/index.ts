@@ -6,5 +6,6 @@ export const components = {
   featured_flights: dynamic(() => import('./FeaturedFlights')),
   hero_banner: dynamic(() => import('./HeroBanner')),
   hero_with_metrics_cards: dynamic(() => import('./HeroWithMetricsCards')),
+  image_card: dynamic(() => import('./ImageCard')),
   section_header: dynamic(() => import('./SectionHeader')),
 };

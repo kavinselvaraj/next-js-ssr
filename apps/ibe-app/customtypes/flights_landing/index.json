@@ -51,6 +51,26 @@
           "allowTargetBlank": false
         }
       }
+    },
+    "Slices": {
+      "body": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "labels": {},
+          "choices": {
+            "image_card": {
+              "type": "SharedSlice"
+            },
+            "section_header": {
+              "type": "SharedSlice"
+            },
+            "featured_flights": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
     }
   }
 }

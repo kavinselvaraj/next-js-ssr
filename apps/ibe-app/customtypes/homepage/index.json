@@ -252,6 +252,32 @@
           "placeholder": "Search routes, compare fares, and book flights with SkyBridge Air."
         }
       }
+    },
+    "Slices": {
+      "body": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "labels": {},
+          "choices": {
+            "image_card": {
+              "type": "SharedSlice"
+            },
+            "hero_banner": {
+              "type": "SharedSlice"
+            },
+            "section_header": {
+              "type": "SharedSlice"
+            },
+            "featured_flights": {
+              "type": "SharedSlice"
+            },
+            "hero_with_metrics_cards": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
     }
   }
 }

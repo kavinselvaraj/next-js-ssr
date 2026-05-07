@@ -1,0 +1,55 @@
+{
+  "type": "SharedSlice",
+  "id": "image_card",
+  "name": "ImageCard",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "A card with an image, title, and description. Use for repeatable image-based content sections across pages.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "",
+      "primary": {
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image",
+            "thumbnails": []
+          }
+        },
+        "image_title": {
+          "type": "Text",
+          "config": {
+            "label": "Image Title",
+            "placeholder": "e.g. Dubai International"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em,hyperlink",
+            "label": "Description",
+            "placeholder": "Short description for the image card."
+          }
+        },
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "Link",
+            "select": null,
+            "allowTargetBlank": true
+          }
+        },
+        "link_label": {
+          "type": "Text",
+          "config": {
+            "label": "Link Label",
+            "placeholder": "Learn more"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

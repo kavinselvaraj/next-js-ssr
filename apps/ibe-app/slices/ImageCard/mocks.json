@@ -1,0 +1,27 @@
+[
+  {
+    "variation": "default",
+    "name": "Default",
+    "slice_type": "image_card",
+    "items": [],
+    "primary": {
+      "image": {
+        "dimensions": { "width": 800, "height": 600 },
+        "alt": "Dubai International Airport terminal",
+        "copyright": null,
+        "url": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600"
+      },
+      "image_title": "Dubai International",
+      "description": [
+        {
+          "type": "paragraph",
+          "text": "Gateway to the world — discover seamless connections from Dubai to over 200 destinations.",
+          "spans": []
+        }
+      ],
+      "link": { "link_type": "Web", "url": "/en/flights?origin=DXB" },
+      "link_label": "Explore routes"
+    },
+    "id": "image_card$mock-01"
+  }
+]
